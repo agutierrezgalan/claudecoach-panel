@@ -600,7 +600,13 @@
       "2026-W48": 20.9
      }
     }
-   ]
+   ],
+   "fuentes": {
+    "modo": "auto",
+    "sesiones_hevy": 21,
+    "sesiones_garmin": 0,
+    "duplicadas": 0
+   }
   },
   "carrera": {
    "semanas": [

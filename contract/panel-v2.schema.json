@@ -193,6 +193,34 @@
          "mejor_por_semana"
         ]
        }
+      },
+      "fuentes": {
+       "description": "De dónde salen las sesiones de fuerza (opcional, añadido compatible de v2).",
+       "type": "object",
+       "required": [
+        "modo",
+        "sesiones_hevy",
+        "sesiones_garmin",
+        "duplicadas"
+       ],
+       "properties": {
+        "modo": {
+         "enum": [
+          "auto",
+          "hevy",
+          "garmin"
+         ]
+        },
+        "sesiones_hevy": {
+         "type": "integer"
+        },
+        "sesiones_garmin": {
+         "type": "integer"
+        },
+        "duplicadas": {
+         "type": "integer"
+        }
+       }
       }
      },
      "required": [
