@@ -221,6 +221,24 @@
          "type": "integer"
         }
        }
+      },
+      "alias": {
+       "description": "Ejercicios del reloj unificados con su nombre de Hevy (añadido compatible de v2).",
+       "type": "object",
+       "properties": {
+        "unificados": {
+         "type": "object",
+         "additionalProperties": {
+          "type": "string"
+         }
+        },
+        "sin_pareja": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        }
+       }
       }
      },
      "required": [
