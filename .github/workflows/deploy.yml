@@ -35,11 +35,31 @@ jobs:
           echo "${GRADLE_SHA256}  $RUNNER_TEMP/gradle.zip" | sha256sum -c -
           unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
 
+      # Caché de dependencias: menos descargas (Maven Central limita con 429). Se siguen verificando
+      # los hashes de verification-metadata.xml en cada build, con o sin caché.
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/nodejs
+            ~/.gradle/binaryen
+          key: gradle-${{ hashFiles('gradle/libs.versions.toml', 'gradle/verification-metadata.xml', 'kotlin-js-store/**') }}
+
       - name: Tests y compilación Kotlin/Wasm (dependencias verificadas con verification-metadata.xml)
         run: |
+          set -o pipefail   # sin esto, el resultado sería el de `tee` y un fallo pasaría por éxito
           export JAVA_HOME="$JAVA_HOME_21_X64"
-          # Si falla un test (contrato con Python, cifrado, estados, presentadores) no se publica nada
-          "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin/gradle" --no-daemon wasmJsNodeTest wasmJsBrowserDistribution
+          # Si falla un test (contrato con Python, cifrado, estados, presentadores) no se publica nada.
+          # Reintenta solo si el fallo es de descarga (429/timeout), nunca si falla un test o la verificación.
+          for i in 1 2 3; do
+            if "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin/gradle" --no-daemon wasmJsNodeTest wasmJsBrowserDistribution 2>&1 | tee "$RUNNER_TEMP/build.log"; then
+              exit 0
+            fi
+            grep -qE "status code 429|Read timed out|Connection reset" "$RUNNER_TEMP/build.log" || exit 1
+            echo "Límite de descargas: reintento en $((i * 60)) s"
+            sleep $((i * 60))
+          done
+          exit 1
           rm -f build/dist/wasmJs/productionExecutable/*.map
           touch build/dist/wasmJs/productionExecutable/.nojekyll
 
