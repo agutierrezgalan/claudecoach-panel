@@ -1,17 +1,16 @@
-package coach
+package coach.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 
-// Espejo del JSON que genera ClaudeCoach (entreno/panel.py). Campos opcionales con valor por defecto.
+// Contrato v2 (ClaudeCoach/contract/panel-v2.schema.json). Campos opcionales con valor por defecto:
+// lo que la app no conoce se ignora; lo que falta y es obligatorio da LoadError.Corrupt.
 
-val json = Json { ignoreUnknownKeys = true; coerceInputValues = true; isLenient = true }
-
+/** Sobre cifrado v1: AES-256-GCM con clave PBKDF2-SHA256. */
 @Serializable
-data class Encrypted(
-    val v: Int = 1,
-    val iter: Int,
+data class Envelope(
+    val v: Int,
+    @SerialName("iter") val iterations: Int,
     val salt: String,
     val iv: String,
     val aad: String,
@@ -20,15 +19,15 @@ data class Encrypted(
 
 @Serializable
 data class Payload(
-    val v: Int = 1,
+    @SerialName("schema_version") val schemaVersion: Int,
     val metricas: Metricas,
-    val diario: List<Dia> = emptyList(),
+    val diario: List<Dia>,
     val estado: Map<String, Estado> = emptyMap(),
 )
 
 @Serializable
 data class Estado(
-    val ok: Boolean = false,
+    val ok: Boolean,
     @SerialName("ultimo_intento") val ultimoIntento: String? = null,
     @SerialName("ultima_ok") val ultimaOk: String? = null,
 )
@@ -43,7 +42,39 @@ data class Metricas(
     val carga: Carga,
     val recuperacion: Recuperacion,
     val composicion: Composicion = Composicion(),
+    val umbrales: Umbrales = Umbrales(),
+    val preparacion: Preparacion = Preparacion(),
     val alertas: List<String> = emptyList(),
+)
+
+@Serializable
+enum class Nivel {
+    @SerialName("verde") VERDE,
+    @SerialName("azul") AZUL,
+    @SerialName("amarillo") AMARILLO,
+    @SerialName("naranja") NARANJA,
+    @SerialName("rojo") ROJO,
+}
+
+@Serializable
+data class Preparacion(
+    val puntuacion: Int? = null,
+    val nivel: Nivel? = null,
+    val motivos: List<Motivo> = emptyList(),
+    @SerialName("datos_suficientes") val datosSuficientes: Boolean = false,
+)
+
+@Serializable
+data class Motivo(val senal: String, val resta: Int, val detalle: String)
+
+@Serializable
+data class Umbrales(val acwr: Acwr = Acwr())
+
+@Serializable
+data class Acwr(
+    @SerialName("min_ok") val minOk: Double = 0.8,
+    @SerialName("max_ok") val maxOk: Double = 1.3,
+    val pico: Double = 1.5,
 )
 
 @Serializable

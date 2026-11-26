@@ -1,8 +1,9 @@
-@file:OptIn(ExperimentalWasmJsInterop::class)
+package coach.ui
 
-package coach
-
+import coach.data.Dia
+import coach.presentation.es
 import kotlinx.browser.document
+import kotlinx.browser.window
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
@@ -14,7 +15,7 @@ import kotlin.math.min
 // Gráficos SVG propios: una serie por gráfico, rejilla tenue, tooltip al tocar/pasar.
 
 object Tip {
-    private val tip: HTMLElement by lazy { byId("tip") }
+    private val tip: HTMLElement by lazy { required<HTMLElement>("tip") }
 
     fun show(x: Double, y: Double, lines: List<String>) {
         tip.clear()
@@ -25,7 +26,7 @@ object Tip {
         }
         tip.hidden = false
         val w = tip.offsetWidth.toDouble()
-        val left = min(max(x, w / 2 + 8), viewportWidth() - w / 2 - 8)
+        val left = min(max(x, w / 2 + 8), window.innerWidth - w / 2 - 8)
         tip.css("left", "${left}px")
         tip.css("top", "${max(y, tip.offsetHeight + 16.0)}px")
     }
@@ -35,9 +36,9 @@ object Tip {
     }
 }
 
-private fun Event.clientX(): Double = unsafeCast<MouseEvent>().clientX.toDouble()
+private fun Event.clientX(): Double = (this as? MouseEvent)?.clientX?.toDouble() ?: 0.0
 
-class Point(val i: Int, val day: String, val y: Double)
+private class Point(val i: Int, val day: String, val y: Double)
 
 fun lineChart(
     host: HTMLElement,
@@ -70,17 +71,22 @@ fun lineChart(
     val ax = svg("g", mapOf("class" to "axis"), s)
     for (tv in listOf(lo + pad, (lo + hi) / 2, hi - pad)) {
         svg("line", mapOf("class" to "gridline", "x1" to l, "x2" to w - r, "y1" to y(tv), "y2" to y(tv)), ax)
-        svg("text", mapOf("x" to l - 6, "y" to y(tv) + 4, "text-anchor" to "end"), ax, fmtNum(tv, 1))
+        svg("text", mapOf("x" to l - 6, "y" to y(tv) + 4, "text-anchor" to "end"), ax, tv.es(1))
     }
     for (i in listOf(0, (n - 1) / 2, n - 1)) {
         val anchor = when (i) { 0 -> "start"; n - 1 -> "end"; else -> "middle" }
         svg("text", mapOf("x" to x(i), "y" to h - 4, "text-anchor" to anchor), ax, shortDayLabel(days[i].d))
     }
     if (bandLo != null && bandHi != null) {
-        val idx = days.indices.filter { bandLo(days[it]) != null && bandHi(days[it]) != null }
-        if (idx.size > 1) {
-            val top = idx.mapIndexed { k, i -> (if (k == 0) "M" else "L") + "${x(i)} ${y(bandHi(days[i])!!)}" }
-            val bot = idx.reversed().map { i -> "L${x(i)} ${y(bandLo(days[i])!!)}" }
+        // (índice, inferior, superior) solo de los días con banda completa
+        val band = days.indices.mapNotNull { i ->
+            val lo = bandLo(days[i]) ?: return@mapNotNull null
+            val hi = bandHi(days[i]) ?: return@mapNotNull null
+            Triple(i, lo, hi)
+        }
+        if (band.size > 1) {
+            val top = band.mapIndexed { k, (i, _, hiV) -> (if (k == 0) "M" else "L") + "${x(i)} ${y(hiV)}" }
+            val bot = band.reversed().map { (i, loV, _) -> "L${x(i)} ${y(loV)}" }
             svg("path", mapOf("class" to "series-band", "d" to (top + bot).joinToString("") + "Z"), s)
         }
     }
@@ -106,10 +112,10 @@ fun lineChart(
         cross.setAttribute("visibility", "visible")
         hot.setAttribute("cx", "${x(best.i)}"); hot.setAttribute("cy", "${y(best.y)}")
         hot.setAttribute("visibility", "visible")
-        val lines = mutableListOf(dayLabel(best.day), fmtNum(best.y, decimals) + unit)
+        val lines = mutableListOf(dayLabel(best.day), best.y.es(decimals, unit))
         if (bandLo != null && bandHi != null) {
             val dlo = bandLo(days[best.i]); val dhi = bandHi(days[best.i])
-            if (dlo != null && dhi != null) lines.add("Rango base ${f1(dlo)}-${f1(dhi)}")
+            if (dlo != null && dhi != null) lines.add("Rango base ${dlo.es()}-${dhi.es()}")
         }
         Tip.show(box.left + x(best.i) / w * box.width, box.top + y(best.y) / h * box.height, lines)
     }
@@ -145,7 +151,7 @@ fun columnChart(host: HTMLElement, items: List<Column>, label: String) {
             val x0 = cx - bw / 2; val x1 = cx + bw / 2
             val d = "M$x0 ${h - b}V${top + rr}Q$x0 $top ${x0 + rr} ${top}H${x1 - rr}Q$x1 $top $x1 ${top + rr}V${h - b}Z"
             svg("path", mapOf("class" to if (it.current) "col cur" else "col", "d" to d), s)
-            svg("text", mapOf("class" to "col-lbl", "x" to cx, "y" to top - 5), s, fmtNum(it.v, 1))
+            svg("text", mapOf("class" to "col-lbl", "x" to cx, "y" to top - 5), s, it.v.es(1))
         }
         svg("text", mapOf("x" to cx, "y" to h - 5, "text-anchor" to "middle"), ax, it.label)
         val hit = svg("rect", mapOf("x" to cx - slot / 2, "y" to 0, "width" to slot, "height" to h, "fill" to "transparent"), s)
@@ -171,7 +177,8 @@ fun sparkline(values: List<Double?>): Element {
     values.forEachIndexed { i, value -> if (value != null) d.append(if (d.isEmpty()) "M" else "L").append("${x(i)} ${y(value)}") }
     svg("path", mapOf("class" to "spark", "d" to d.toString()), s)
     val last = values.indexOfLast { it != null }
-    svg("circle", mapOf("class" to "spark-dot", "cx" to x(last), "cy" to y(values[last]!!), "r" to 3), s)
+    val lastValue = values.getOrNull(last) ?: return s
+    svg("circle", mapOf("class" to "spark-dot", "cx" to x(last), "cy" to y(lastValue), "r" to 3), s)
     return s
 }
 

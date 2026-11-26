@@ -44,6 +44,15 @@
   </header>
   <div id="sync" class="chips" aria-label="Estado de sincronización"></div>
 
+  <section class="card readiness" id="readiness" aria-live="polite">
+    <p class="rkick">Preparación de hoy</p>
+    <div class="rrow">
+      <div class="rscore"><span id="r-score">—</span><small>/100</small></div>
+      <div><p id="r-title" class="rtitle"></p><p id="r-advice" class="radvice"></p></div>
+    </div>
+    <ul id="r-reasons" class="reasons"></ul>
+  </section>
+
   <section class="card" id="alerts-card">
     <h2>Alertas</h2>
     <ul id="alerts" class="alerts"></ul>

@@ -9,10 +9,12 @@ https://agutierrezgalan.github.io/claudecoach-panel/
 - CSP estricta: solo scripts propios + Wasm; datos leídos únicamente de `raw.githubusercontent.com`.
 - Requiere un navegador con WebAssembly GC (iOS/Safari 18.2+, Chrome 119+).
 
-## Compilar
+## Compilar y probar
 ```bash
+gradle wasmJsNodeTest              # tests (contrato con Python, cifrado real, estados, presentadores)
 gradle wasmJsBrowserDistribution   # salida: build/dist/wasmJs/productionExecutable
 ```
+Arquitectura por capas (core, data, platform, presentation, ui): ver `CLAUDE.md`.
 Dependencias fijadas: versiones exactas, `gradle/verification-metadata.xml` (SHA-256 de cada artefacto,
 Node y binaryen incluidos) y `kotlin-js-store/wasm/package-lock.json` (el build falla si cambia).
 Para probar en local, copia un `data.json` cifrado junto al `index.html` generado.

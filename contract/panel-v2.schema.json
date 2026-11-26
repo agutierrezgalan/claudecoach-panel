@@ -1,0 +1,827 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://github.com/agutierrezgalan/ClaudeCoach/contract/panel-v2.schema.json",
+ "title": "ClaudeCoach panel payload v2",
+ "description": "Datos que ClaudeCoach (Python) cifra para la app claudecoach-panel (Kotlin/Wasm). Las propiedades extra se permiten (la app las ignora); las requeridas no pueden faltar.",
+ "type": "object",
+ "required": [
+  "schema_version",
+  "metricas",
+  "diario",
+  "estado"
+ ],
+ "properties": {
+  "schema_version": {
+   "const": 2
+  },
+  "metricas": {
+   "type": "object",
+   "properties": {
+    "fecha": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}"
+    },
+    "semana_actual": {
+     "type": "string",
+     "pattern": "^\\d{4}-W\\d{2}$"
+    },
+    "frescura_datos": {
+     "type": "object",
+     "additionalProperties": {
+      "type": [
+       "string",
+       "null"
+      ]
+     }
+    },
+    "fuerza": {
+     "type": "object",
+     "properties": {
+      "semanas": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "semana": {
+          "type": "string",
+          "pattern": "^\\d{4}-W\\d{2}$"
+         },
+         "sesiones": {
+          "type": "integer",
+          "minimum": 0
+         },
+         "series_totales": {
+          "type": "integer",
+          "minimum": 0
+         },
+         "tonelaje_kg": {
+          "type": "number"
+         },
+         "rpe_medio": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "series_por_musculo": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "number"
+          }
+         }
+        },
+        "required": [
+         "semana",
+         "sesiones",
+         "series_totales",
+         "tonelaje_kg",
+         "rpe_medio",
+         "series_por_musculo"
+        ]
+       }
+      },
+      "semana_completa": {
+       "type": "string",
+       "pattern": "^\\d{4}-W\\d{2}$"
+      },
+      "volumen_vs_objetivo": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "object",
+        "properties": {
+         "series": {
+          "type": "number"
+         },
+         "objetivo": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         },
+         "estado": {
+          "enum": [
+           "bajo",
+           "ok",
+           "alto"
+          ]
+         }
+        },
+        "required": [
+         "series",
+         "objetivo",
+         "estado"
+        ]
+       }
+      },
+      "ejercicios_sin_mapear": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "integer"
+       }
+      },
+      "e1rm": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "ejercicio": {
+          "type": "string"
+         },
+         "series_8sem": {
+          "type": "integer"
+         },
+         "e1rm_ult_14d": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "e1rm_dias_15_42": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "cambio_pct": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "ultima_sesion": {
+          "type": "object",
+          "properties": {
+           "fecha": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}"
+           },
+           "kg": {
+            "type": [
+             "number",
+             "null"
+            ]
+           },
+           "reps": {
+            "type": [
+             "integer",
+             "null"
+            ]
+           }
+          },
+          "required": [
+           "fecha",
+           "kg",
+           "reps"
+          ]
+         },
+         "mejor_por_semana": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "number"
+          }
+         }
+        },
+        "required": [
+         "ejercicio",
+         "series_8sem",
+         "e1rm_ult_14d",
+         "e1rm_dias_15_42",
+         "cambio_pct",
+         "ultima_sesion",
+         "mejor_por_semana"
+        ]
+       }
+      }
+     },
+     "required": [
+      "semanas",
+      "semana_completa",
+      "volumen_vs_objetivo",
+      "ejercicios_sin_mapear",
+      "e1rm"
+     ]
+    },
+    "carrera": {
+     "type": "object",
+     "properties": {
+      "semanas": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "semana": {
+          "type": "string",
+          "pattern": "^\\d{4}-W\\d{2}$"
+         },
+         "salidas": {
+          "type": "integer"
+         },
+         "km": {
+          "type": "number"
+         },
+         "ritmo_medio": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "tirada_larga_km": {
+          "type": "number"
+         },
+         "fc_media": {
+          "type": [
+           "number",
+           "null"
+          ]
+         }
+        },
+        "required": [
+         "semana",
+         "salidas",
+         "km",
+         "ritmo_medio",
+         "tirada_larga_km",
+         "fc_media"
+        ]
+       }
+      },
+      "ultimas_2_semanas": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "fecha": {
+          "type": "string"
+         },
+         "nombre": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "km": {
+          "type": "number"
+         },
+         "ritmo": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "fc_media": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "carga": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "te_aerobico": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "te_anaerobico": {
+          "type": [
+           "number",
+           "null"
+          ]
+         }
+        },
+        "required": [
+         "fecha",
+         "nombre",
+         "km",
+         "ritmo",
+         "fc_media",
+         "carga",
+         "te_aerobico",
+         "te_anaerobico"
+        ]
+       }
+      }
+     },
+     "required": [
+      "semanas",
+      "ultimas_2_semanas"
+     ]
+    },
+    "carga": {
+     "type": "object",
+     "properties": {
+      "carga_garmin": {
+       "type": "object",
+       "properties": {
+        "aguda_7d": {
+         "type": "number"
+        },
+        "cronica_semanal_28d": {
+         "type": "number"
+        },
+        "ratio": {
+         "type": [
+          "number",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "aguda_7d",
+        "cronica_semanal_28d",
+        "ratio"
+       ]
+      },
+      "km_carrera": {
+       "type": "object",
+       "properties": {
+        "aguda_7d": {
+         "type": "number"
+        },
+        "cronica_semanal_28d": {
+         "type": "number"
+        },
+        "ratio": {
+         "type": [
+          "number",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "aguda_7d",
+        "cronica_semanal_28d",
+        "ratio"
+       ]
+      },
+      "series_fuerza": {
+       "type": "object",
+       "properties": {
+        "aguda_7d": {
+         "type": "number"
+        },
+        "cronica_semanal_28d": {
+         "type": "number"
+        },
+        "ratio": {
+         "type": [
+          "number",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "aguda_7d",
+        "cronica_semanal_28d",
+        "ratio"
+       ]
+      }
+     },
+     "required": [
+      "carga_garmin",
+      "km_carrera",
+      "series_fuerza"
+     ]
+    },
+    "recuperacion": {
+     "type": "object",
+     "properties": {
+      "sueno": {
+       "type": "object",
+       "properties": {
+        "horas_media_7d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "horas_media_28d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "noches_menos_7h_7d": {
+         "type": "integer"
+        },
+        "puntuacion_media_7d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "puntuacion_media_28d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "horas_media_7d",
+        "horas_media_28d",
+        "noches_menos_7h_7d",
+        "puntuacion_media_7d",
+        "puntuacion_media_28d"
+       ]
+      },
+      "hrv": {
+       "type": "object",
+       "properties": {
+        "media_7d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "media_28d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "rango_base": {
+         "type": [
+          "array",
+          "null"
+         ],
+         "items": {
+          "type": [
+           "number",
+           "null"
+          ]
+         },
+         "minItems": 2,
+         "maxItems": 2
+        },
+        "estado_garmin": {
+         "type": [
+          "string",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "media_7d",
+        "media_28d",
+        "rango_base",
+        "estado_garmin"
+       ]
+      },
+      "fc_reposo": {
+       "type": "object",
+       "properties": {
+        "media_7d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "media_28d": {
+         "type": [
+          "number",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "media_7d",
+        "media_28d"
+       ]
+      },
+      "body_battery_max_media_7d": {
+       "type": [
+        "number",
+        "null"
+       ]
+      }
+     },
+     "required": [
+      "sueno",
+      "hrv",
+      "fc_reposo",
+      "body_battery_max_media_7d"
+     ]
+    },
+    "composicion": {
+     "type": "object",
+     "properties": {
+      "sin_datos": {
+       "type": "boolean"
+      },
+      "ultimo": {
+       "type": "object",
+       "properties": {
+        "fecha": {
+         "type": "string",
+         "pattern": "^\\d{4}-\\d{2}-\\d{2}"
+        },
+        "peso_kg": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "grasa_pct": {
+         "type": [
+          "number",
+          "null"
+         ]
+        },
+        "masa_muscular_kg": {
+         "type": [
+          "number",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "fecha",
+        "peso_kg",
+        "grasa_pct",
+        "masa_muscular_kg"
+       ]
+      },
+      "peso_medio_7d": {
+       "type": [
+        "number",
+        "null"
+       ]
+      },
+      "peso_medio_hace_3_4_sem": {
+       "type": [
+        "number",
+        "null"
+       ]
+      },
+      "kg_por_semana": {
+       "type": [
+        "number",
+        "null"
+       ]
+      }
+     }
+    },
+    "umbrales": {
+     "type": "object",
+     "properties": {
+      "acwr": {
+       "type": "object",
+       "properties": {
+        "min_ok": {
+         "type": "number"
+        },
+        "max_ok": {
+         "type": "number"
+        },
+        "pico": {
+         "type": "number"
+        }
+       },
+       "required": [
+        "min_ok",
+        "max_ok",
+        "pico"
+       ]
+      },
+      "niveles": {
+       "type": "object",
+       "properties": {
+        "verde": {
+         "type": "integer",
+         "minimum": 0,
+         "maximum": 100
+        },
+        "azul": {
+         "type": "integer",
+         "minimum": 0,
+         "maximum": 100
+        },
+        "amarillo": {
+         "type": "integer",
+         "minimum": 0,
+         "maximum": 100
+        },
+        "naranja": {
+         "type": "integer",
+         "minimum": 0,
+         "maximum": 100
+        }
+       },
+       "required": [
+        "verde",
+        "azul",
+        "amarillo",
+        "naranja"
+       ]
+      },
+      "sueno_objetivo_h": {
+       "type": "number"
+      },
+      "body_battery_min": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "acwr",
+      "niveles",
+      "sueno_objetivo_h",
+      "body_battery_min"
+     ]
+    },
+    "preparacion": {
+     "type": "object",
+     "properties": {
+      "puntuacion": {
+       "type": [
+        "integer",
+        "null"
+       ],
+       "minimum": 0,
+       "maximum": 100
+      },
+      "nivel": {
+       "enum": [
+        "verde",
+        "azul",
+        "amarillo",
+        "naranja",
+        "rojo",
+        null
+       ]
+      },
+      "motivos": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "senal": {
+          "enum": [
+           "sueno",
+           "hrv",
+           "fc_reposo",
+           "carga",
+           "body_battery"
+          ]
+         },
+         "resta": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+         },
+         "detalle": {
+          "type": "string",
+          "minLength": 1
+         }
+        },
+        "required": [
+         "senal",
+         "resta",
+         "detalle"
+        ]
+       }
+      },
+      "datos_suficientes": {
+       "type": "boolean"
+      }
+     },
+     "required": [
+      "puntuacion",
+      "nivel",
+      "motivos",
+      "datos_suficientes"
+     ]
+    },
+    "alertas": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   },
+   "required": [
+    "fecha",
+    "semana_actual",
+    "frescura_datos",
+    "fuerza",
+    "carrera",
+    "carga",
+    "recuperacion",
+    "composicion",
+    "umbrales",
+    "preparacion",
+    "alertas"
+   ]
+  },
+  "diario": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "d": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}"
+     },
+     "sueno_h": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "sueno_pts": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "hrv": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "hrv_lo": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "hrv_hi": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "fcr": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "bb": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "peso": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "km": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "gym": {
+      "type": [
+       "integer",
+       "null"
+      ]
+     }
+    },
+    "required": [
+     "d"
+    ]
+   }
+  },
+  "estado": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "ok": {
+      "type": "boolean"
+     },
+     "ultimo_intento": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "ultima_ok": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "detalle": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "ok"
+    ]
+   }
+  }
+ }
+}

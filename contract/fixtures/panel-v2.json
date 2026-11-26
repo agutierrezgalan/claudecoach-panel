@@ -1,0 +1,1310 @@
+{
+ "schema_version": 2,
+ "metricas": {
+  "fecha": "2026-11-26",
+  "semana_actual": "2026-W48",
+  "frescura_datos": {
+   "hevy_ultimo_entreno": "2026-11-27T18:00",
+   "garmin_ultima_actividad": "2026-11-26T07:30",
+   "garmin_ultimo_sueno": "2026-11-26",
+   "garmin_ultimo_hrv": "2026-11-26",
+   "garmin_ultimo_peso": "2026-11-26"
+  },
+  "fuerza": {
+   "semanas": [
+    {
+     "semana": "2026-W41",
+     "sesiones": 0,
+     "series_totales": 0,
+     "tonelaje_kg": 0,
+     "rpe_medio": null,
+     "series_por_musculo": {}
+    },
+    {
+     "semana": "2026-W42",
+     "sesiones": 3,
+     "series_totales": 48,
+     "tonelaje_kg": 17952,
+     "rpe_medio": 8.33,
+     "series_por_musculo": {
+      "antebrazo": 1.5,
+      "biceps": 9.0,
+      "cuadriceps": 6.0,
+      "espalda": 6.0,
+      "gemelos": 3.0,
+      "gluteos": 3.0,
+      "hombro_anterior": 6.0,
+      "hombro_lateral": 4.5,
+      "hombro_posterior": 4.5,
+      "isquios": 6.0,
+      "lumbar": 1.5,
+      "pecho": 6.0,
+      "trapecio": 1.5,
+      "triceps": 7.5
+     }
+    },
+    {
+     "semana": "2026-W43",
+     "sesiones": 3,
+     "series_totales": 48,
+     "tonelaje_kg": 18312,
+     "rpe_medio": 8.33,
+     "series_por_musculo": {
+      "antebrazo": 1.5,
+      "biceps": 9.0,
+      "cuadriceps": 6.0,
+      "espalda": 6.0,
+      "gemelos": 3.0,
+      "gluteos": 3.0,
+      "hombro_anterior": 6.0,
+      "hombro_lateral": 4.5,
+      "hombro_posterior": 4.5,
+      "isquios": 6.0,
+      "lumbar": 1.5,
+      "pecho": 6.0,
+      "trapecio": 1.5,
+      "triceps": 7.5
+     }
+    },
+    {
+     "semana": "2026-W44",
+     "sesiones": 3,
+     "series_totales": 48,
+     "tonelaje_kg": 18672,
+     "rpe_medio": 8.33,
+     "series_por_musculo": {
+      "antebrazo": 1.5,
+      "biceps": 9.0,
+      "cuadriceps": 6.0,
+      "espalda": 6.0,
+      "gemelos": 3.0,
+      "gluteos": 3.0,
+      "hombro_anterior": 6.0,
+      "hombro_lateral": 4.5,
+      "hombro_posterior": 4.5,
+      "isquios": 6.0,
+      "lumbar": 1.5,
+      "pecho": 6.0,
+      "trapecio": 1.5,
+      "triceps": 7.5
+     }
+    },
+    {
+     "semana": "2026-W45",
+     "sesiones": 3,
+     "series_totales": 48,
+     "tonelaje_kg": 19027,
+     "rpe_medio": 8.33,
+     "series_por_musculo": {
+      "antebrazo": 1.5,
+      "biceps": 9.0,
+      "cuadriceps": 6.0,
+      "espalda": 6.0,
+      "gemelos": 3.0,
+      "gluteos": 3.0,
+      "hombro_anterior": 6.0,
+      "hombro_lateral": 4.5,
+      "hombro_posterior": 4.5,
+      "isquios": 6.0,
+      "lumbar": 1.5,
+      "pecho": 6.0,
+      "trapecio": 1.5,
+      "triceps": 7.5
+     }
+    },
+    {
+     "semana": "2026-W46",
+     "sesiones": 3,
+     "series_totales": 48,
+     "tonelaje_kg": 19387,
+     "rpe_medio": 8.33,
+     "series_por_musculo": {
+      "antebrazo": 1.5,
+      "biceps": 9.0,
+      "cuadriceps": 6.0,
+      "espalda": 6.0,
+      "gemelos": 3.0,
+      "gluteos": 3.0,
+      "hombro_anterior": 6.0,
+      "hombro_lateral": 4.5,
+      "hombro_posterior": 4.5,
+      "isquios": 6.0,
+      "lumbar": 1.5,
+      "pecho": 6.0,
+      "trapecio": 1.5,
+      "triceps": 7.5
+     }
+    },
+    {
+     "semana": "2026-W47",
+     "sesiones": 3,
+     "series_totales": 48,
+     "tonelaje_kg": 19747,
+     "rpe_medio": 8.33,
+     "series_por_musculo": {
+      "antebrazo": 1.5,
+      "biceps": 9.0,
+      "cuadriceps": 6.0,
+      "espalda": 6.0,
+      "gemelos": 3.0,
+      "gluteos": 3.0,
+      "hombro_anterior": 6.0,
+      "hombro_lateral": 4.5,
+      "hombro_posterior": 4.5,
+      "isquios": 6.0,
+      "lumbar": 1.5,
+      "pecho": 6.0,
+      "trapecio": 1.5,
+      "triceps": 7.5
+     }
+    },
+    {
+     "semana": "2026-W48",
+     "sesiones": 3,
+     "series_totales": 48,
+     "tonelaje_kg": 20107,
+     "rpe_medio": 8.33,
+     "series_por_musculo": {
+      "antebrazo": 1.5,
+      "biceps": 9.0,
+      "cuadriceps": 6.0,
+      "espalda": 6.0,
+      "gemelos": 3.0,
+      "gluteos": 3.0,
+      "hombro_anterior": 6.0,
+      "hombro_lateral": 4.5,
+      "hombro_posterior": 4.5,
+      "isquios": 6.0,
+      "lumbar": 1.5,
+      "pecho": 6.0,
+      "trapecio": 1.5,
+      "triceps": 7.5
+     }
+    }
+   ],
+   "semana_completa": "2026-W47",
+   "volumen_vs_objetivo": {
+    "pecho": {
+     "series": 6.0,
+     "objetivo": [
+      10,
+      18
+     ],
+     "estado": "bajo"
+    },
+    "espalda": {
+     "series": 6.0,
+     "objetivo": [
+      10,
+      20
+     ],
+     "estado": "bajo"
+    },
+    "hombro_lateral": {
+     "series": 4.5,
+     "objetivo": [
+      8,
+      18
+     ],
+     "estado": "bajo"
+    },
+    "hombro_posterior": {
+     "series": 4.5,
+     "objetivo": [
+      6,
+      14
+     ],
+     "estado": "bajo"
+    },
+    "hombro_anterior": {
+     "series": 6.0,
+     "objetivo": [
+      0,
+      10
+     ],
+     "estado": "ok"
+    },
+    "biceps": {
+     "series": 9.0,
+     "objetivo": [
+      6,
+      14
+     ],
+     "estado": "ok"
+    },
+    "triceps": {
+     "series": 7.5,
+     "objetivo": [
+      6,
+      14
+     ],
+     "estado": "ok"
+    },
+    "cuadriceps": {
+     "series": 6.0,
+     "objetivo": [
+      8,
+      14
+     ],
+     "estado": "bajo"
+    },
+    "isquios": {
+     "series": 6.0,
+     "objetivo": [
+      6,
+      12
+     ],
+     "estado": "ok"
+    },
+    "gluteos": {
+     "series": 3.0,
+     "objetivo": [
+      6,
+      14
+     ],
+     "estado": "bajo"
+    },
+    "gemelos": {
+     "series": 3.0,
+     "objetivo": [
+      0,
+      10
+     ],
+     "estado": "ok"
+    },
+    "core": {
+     "series": 0.0,
+     "objetivo": [
+      0,
+      10
+     ],
+     "estado": "ok"
+    }
+   },
+   "ejercicios_sin_mapear": {
+    "Mystery Machine": 21
+   },
+   "e1rm": [
+    {
+     "ejercicio": "Bench Press (Barbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 119.5,
+     "e1rm_dias_15_42": 115.2,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-23",
+      "kg": 89.6,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 106.7,
+      "2026-W43": 108.8,
+      "2026-W44": 110.9,
+      "2026-W45": 113.1,
+      "2026-W46": 115.2,
+      "2026-W47": 117.3,
+      "2026-W48": 119.5
+     }
+    },
+    {
+     "ejercicio": "Bent Over Row (Barbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 104.5,
+     "e1rm_dias_15_42": 100.8,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-23",
+      "kg": 78.4,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 93.3,
+      "2026-W43": 95.2,
+      "2026-W44": 97.1,
+      "2026-W45": 98.9,
+      "2026-W46": 100.8,
+      "2026-W47": 102.7,
+      "2026-W48": 104.5
+     }
+    },
+    {
+     "ejercicio": "Lateral Raise (Dumbbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 14.9,
+     "e1rm_dias_15_42": 14.4,
+     "cambio_pct": 3.5,
+     "ultima_sesion": {
+      "fecha": "2026-11-23",
+      "kg": 11.2,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 13.3,
+      "2026-W43": 13.6,
+      "2026-W44": 13.9,
+      "2026-W45": 14.1,
+      "2026-W46": 14.4,
+      "2026-W47": 14.7,
+      "2026-W48": 14.9
+     }
+    },
+    {
+     "ejercicio": "Triceps Pushdown",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 44.8,
+     "e1rm_dias_15_42": 43.2,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-23",
+      "kg": 33.6,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 40.0,
+      "2026-W43": 40.8,
+      "2026-W44": 41.6,
+      "2026-W45": 42.4,
+      "2026-W46": 43.2,
+      "2026-W47": 44.0,
+      "2026-W48": 44.8
+     }
+    },
+    {
+     "ejercicio": "Bicep Curl (Dumbbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 20.9,
+     "e1rm_dias_15_42": 20.1,
+     "cambio_pct": 4.0,
+     "ultima_sesion": {
+      "fecha": "2026-11-23",
+      "kg": 15.7,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 18.7,
+      "2026-W43": 19.1,
+      "2026-W44": 19.5,
+      "2026-W45": 19.7,
+      "2026-W46": 20.1,
+      "2026-W47": 20.5,
+      "2026-W48": 20.9
+     }
+    },
+    {
+     "ejercicio": "Squat (Barbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 149.3,
+     "e1rm_dias_15_42": 144.0,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-25",
+      "kg": 112.0,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 133.3,
+      "2026-W43": 136.0,
+      "2026-W44": 138.7,
+      "2026-W45": 141.3,
+      "2026-W46": 144.0,
+      "2026-W47": 146.7,
+      "2026-W48": 149.3
+     }
+    },
+    {
+     "ejercicio": "Romanian Deadlift (Barbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 134.4,
+     "e1rm_dias_15_42": 129.6,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-25",
+      "kg": 100.8,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 120.0,
+      "2026-W43": 122.4,
+      "2026-W44": 124.8,
+      "2026-W45": 127.2,
+      "2026-W46": 129.6,
+      "2026-W47": 132.0,
+      "2026-W48": 134.4
+     }
+    },
+    {
+     "ejercicio": "Leg Extension (Machine)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 74.7,
+     "e1rm_dias_15_42": 72.0,
+     "cambio_pct": 3.8,
+     "ultima_sesion": {
+      "fecha": "2026-11-25",
+      "kg": 56.0,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 66.7,
+      "2026-W43": 68.0,
+      "2026-W44": 69.3,
+      "2026-W45": 70.7,
+      "2026-W46": 72.0,
+      "2026-W47": 73.3,
+      "2026-W48": 74.7
+     }
+    },
+    {
+     "ejercicio": "Seated Leg Curl (Machine)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 67.2,
+     "e1rm_dias_15_42": 64.8,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-25",
+      "kg": 50.4,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 60.0,
+      "2026-W43": 61.2,
+      "2026-W44": 62.4,
+      "2026-W45": 63.6,
+      "2026-W46": 64.8,
+      "2026-W47": 66.0,
+      "2026-W48": 67.2
+     }
+    },
+    {
+     "ejercicio": "Standing Calf Raise",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 89.6,
+     "e1rm_dias_15_42": 86.4,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-25",
+      "kg": 67.2,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 80.0,
+      "2026-W43": 81.6,
+      "2026-W44": 83.2,
+      "2026-W45": 84.8,
+      "2026-W46": 86.4,
+      "2026-W47": 88.0,
+      "2026-W48": 89.6
+     }
+    },
+    {
+     "ejercicio": "Incline Bench Press (Dumbbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 44.0,
+     "e1rm_dias_15_42": 42.4,
+     "cambio_pct": 3.8,
+     "ultima_sesion": {
+      "fecha": "2026-11-27",
+      "kg": 33.6,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 40.0,
+      "2026-W43": 40.8,
+      "2026-W44": 41.6,
+      "2026-W45": 42.4,
+      "2026-W46": 43.2,
+      "2026-W47": 44.0,
+      "2026-W48": 44.8
+     }
+    },
+    {
+     "ejercicio": "Lat Pulldown (Cable)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 95.3,
+     "e1rm_dias_15_42": 91.9,
+     "cambio_pct": 3.7,
+     "ultima_sesion": {
+      "fecha": "2026-11-27",
+      "kg": 72.8,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 86.7,
+      "2026-W43": 88.4,
+      "2026-W44": 90.1,
+      "2026-W45": 91.9,
+      "2026-W46": 93.6,
+      "2026-W47": 95.3,
+      "2026-W48": 97.1
+     }
+    },
+    {
+     "ejercicio": "Face Pull",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 36.7,
+     "e1rm_dias_15_42": 35.3,
+     "cambio_pct": 4.0,
+     "ultima_sesion": {
+      "fecha": "2026-11-27",
+      "kg": 28.0,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 33.3,
+      "2026-W43": 34.0,
+      "2026-W44": 34.7,
+      "2026-W45": 35.3,
+      "2026-W46": 36.0,
+      "2026-W47": 36.7,
+      "2026-W48": 37.3
+     }
+    },
+    {
+     "ejercicio": "Overhead Press (Barbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 66.0,
+     "e1rm_dias_15_42": 63.6,
+     "cambio_pct": 3.8,
+     "ultima_sesion": {
+      "fecha": "2026-11-27",
+      "kg": 50.4,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 60.0,
+      "2026-W43": 61.2,
+      "2026-W44": 62.4,
+      "2026-W45": 63.6,
+      "2026-W46": 64.8,
+      "2026-W47": 66.0,
+      "2026-W48": 67.2
+     }
+    },
+    {
+     "ejercicio": "Hammer Curl (Dumbbell)",
+     "series_8sem": 21,
+     "e1rm_ult_14d": 20.5,
+     "e1rm_dias_15_42": 19.7,
+     "cambio_pct": 4.1,
+     "ultima_sesion": {
+      "fecha": "2026-11-27",
+      "kg": 15.7,
+      "reps": 8
+     },
+     "mejor_por_semana": {
+      "2026-W42": 18.7,
+      "2026-W43": 19.1,
+      "2026-W44": 19.5,
+      "2026-W45": 19.7,
+      "2026-W46": 20.1,
+      "2026-W47": 20.5,
+      "2026-W48": 20.9
+     }
+    }
+   ]
+  },
+  "carrera": {
+   "semanas": [
+    {
+     "semana": "2026-W41",
+     "salidas": 0,
+     "km": 0,
+     "ritmo_medio": null,
+     "tirada_larga_km": 0,
+     "fc_media": null
+    },
+    {
+     "semana": "2026-W42",
+     "salidas": 0,
+     "km": 0,
+     "ritmo_medio": null,
+     "tirada_larga_km": 0,
+     "fc_media": null
+    },
+    {
+     "semana": "2026-W43",
+     "salidas": 2,
+     "km": 22.6,
+     "ritmo_medio": "3:54",
+     "tirada_larga_km": 11.4,
+     "fc_media": 145.0
+    },
+    {
+     "semana": "2026-W44",
+     "salidas": 3,
+     "km": 32.4,
+     "ritmo_medio": "4:04",
+     "tirada_larga_km": 11.0,
+     "fc_media": 145.0
+    },
+    {
+     "semana": "2026-W45",
+     "salidas": 4,
+     "km": 40.4,
+     "ritmo_medio": "4:21",
+     "tirada_larga_km": 10.4,
+     "fc_media": 145.0
+    },
+    {
+     "semana": "2026-W46",
+     "salidas": 3,
+     "km": 28.2,
+     "ritmo_medio": "4:41",
+     "tirada_larga_km": 9.6,
+     "fc_media": 145.0
+    },
+    {
+     "semana": "2026-W47",
+     "salidas": 4,
+     "km": 34.8,
+     "ritmo_medio": "5:03",
+     "tirada_larga_km": 9.0,
+     "fc_media": 145.0
+    },
+    {
+     "semana": "2026-W48",
+     "salidas": 2,
+     "km": 16.2,
+     "ritmo_medio": "5:26",
+     "tirada_larga_km": 8.2,
+     "fc_media": 145.0
+    }
+   ],
+   "ultimas_2_semanas": [
+    {
+     "fecha": "2026-11-12T07:30",
+     "nombre": "Rodaje",
+     "km": 9.4,
+     "ritmo": "4:41",
+     "fc_media": 145.0,
+     "carga": 80.0,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    },
+    {
+     "fecha": "2026-11-14T07:30",
+     "nombre": "Rodaje",
+     "km": 9.2,
+     "ritmo": "4:47",
+     "fc_media": 145.0,
+     "carga": 80.0,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    },
+    {
+     "fecha": "2026-11-16T07:30",
+     "nombre": "Rodaje",
+     "km": 9.0,
+     "ritmo": "4:53",
+     "fc_media": 145.0,
+     "carga": 80.0,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    },
+    {
+     "fecha": "2026-11-18T07:30",
+     "nombre": "Rodaje",
+     "km": 8.8,
+     "ritmo": "5:00",
+     "fc_media": 145.0,
+     "carga": 80.0,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    },
+    {
+     "fecha": "2026-11-20T07:30",
+     "nombre": "Rodaje",
+     "km": 8.6,
+     "ritmo": "5:07",
+     "fc_media": 145.0,
+     "carga": 80.0,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    },
+    {
+     "fecha": "2026-11-22T07:30",
+     "nombre": "Rodaje",
+     "km": 8.4,
+     "ritmo": "5:14",
+     "fc_media": 145.0,
+     "carga": null,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    },
+    {
+     "fecha": "2026-11-24T07:30",
+     "nombre": "Rodaje",
+     "km": 8.2,
+     "ritmo": "5:22",
+     "fc_media": 145.0,
+     "carga": 80.0,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    },
+    {
+     "fecha": "2026-11-26T07:30",
+     "nombre": "Rodaje",
+     "km": 8.0,
+     "ritmo": "5:30",
+     "fc_media": 145.0,
+     "carga": 80.0,
+     "te_aerobico": 3.1,
+     "te_anaerobico": null
+    }
+   ]
+  },
+  "carga": {
+   "carga_garmin": {
+    "aguda_7d": 420.0,
+    "cronica_semanal_28d": 305.0,
+    "ratio": 1.38,
+    "actividades_con_carga_estimada": 1
+   },
+   "km_carrera": {
+    "aguda_7d": 33.2,
+    "cronica_semanal_28d": 32.5,
+    "ratio": 1.02
+   },
+   "series_fuerza": {
+    "aguda_7d": 48.0,
+    "cronica_semanal_28d": 48.0,
+    "ratio": 1.0
+   },
+   "nota": "ratio = carga 7 días / media semanal de 28 días (umbrales en settings.toml)."
+  },
+  "recuperacion": {
+   "sueno": {
+    "horas_media_7d": 6.5,
+    "horas_media_28d": 7.25,
+    "noches_menos_7h_7d": 7,
+    "puntuacion_media_7d": 75.0,
+    "puntuacion_media_28d": 75.0
+   },
+   "hrv": {
+    "media_7d": 50.0,
+    "media_28d": 59.0,
+    "rango_base": [
+     56.0,
+     70.0
+    ],
+    "estado_garmin": "UNBALANCED"
+   },
+   "fc_reposo": {
+    "media_7d": 52.0,
+    "media_28d": 48.25
+   },
+   "body_battery_max_media_7d": 80.0
+  },
+  "composicion": {
+   "ultimo": {
+    "fecha": "2026-11-26",
+    "peso_kg": 78.6,
+    "grasa_pct": 15.0,
+    "masa_muscular_kg": 36.0
+   },
+   "peso_medio_7d": 78.54,
+   "peso_medio_hace_3_4_sem": 78.1,
+   "kg_por_semana": 0.11
+  },
+  "umbrales": {
+   "acwr": {
+    "min_ok": 0.8,
+    "max_ok": 1.3,
+    "pico": 1.5
+   },
+   "niveles": {
+    "verde": 80,
+    "azul": 65,
+    "amarillo": 50,
+    "naranja": 35
+   },
+   "sueno_objetivo_h": 7.5,
+   "body_battery_min": 50
+  },
+  "preparacion": {
+   "puntuacion": 41,
+   "nivel": "naranja",
+   "motivos": [
+    {
+     "senal": "hrv",
+     "resta": 20,
+     "detalle": "HRV 7 días 50 ms, por debajo de tu rango base (56-70)"
+    },
+    {
+     "senal": "fc_reposo",
+     "resta": 19,
+     "detalle": "FC en reposo 7 días 52 vs 48,2 de media (+3,8)"
+    },
+    {
+     "senal": "sueno",
+     "resta": 10,
+     "detalle": "Sueño medio 7 días 6,5 h (objetivo 7,5 h)"
+    },
+    {
+     "senal": "carga",
+     "resta": 10,
+     "detalle": "Carga 7/28 días 1,38: alta (>1,3)"
+    }
+   ],
+   "datos_suficientes": true
+  },
+  "alertas": [
+   "Sueño medio 7 días 6,5 h (<7 h)",
+   "HRV media 7 días 50 por debajo de tu rango base (56-70)",
+   "FC en reposo 7 días 52 vs 28 días 48,25 (+3,8)",
+   "pecho: 6 series en 2026-W47 (bajo; objetivo 10-18)",
+   "espalda: 6 series en 2026-W47 (bajo; objetivo 10-20)",
+   "hombro_lateral: 4,5 series en 2026-W47 (bajo; objetivo 8-18)",
+   "hombro_posterior: 4,5 series en 2026-W47 (bajo; objetivo 6-14)",
+   "cuadriceps: 6 series en 2026-W47 (bajo; objetivo 8-14)",
+   "gluteos: 3 series en 2026-W47 (bajo; objetivo 6-14)",
+   "Ejercicios sin grupo muscular: Mystery Machine"
+  ]
+ },
+ "diario": [
+  {
+   "d": "2026-10-02"
+  },
+  {
+   "d": "2026-10-03"
+  },
+  {
+   "d": "2026-10-04"
+  },
+  {
+   "d": "2026-10-05"
+  },
+  {
+   "d": "2026-10-06"
+  },
+  {
+   "d": "2026-10-07"
+  },
+  {
+   "d": "2026-10-08"
+  },
+  {
+   "d": "2026-10-09"
+  },
+  {
+   "d": "2026-10-10"
+  },
+  {
+   "d": "2026-10-11"
+  },
+  {
+   "d": "2026-10-12",
+   "gym": 1
+  },
+  {
+   "d": "2026-10-13"
+  },
+  {
+   "d": "2026-10-14",
+   "gym": 1
+  },
+  {
+   "d": "2026-10-15"
+  },
+  {
+   "d": "2026-10-16",
+   "gym": 1
+  },
+  {
+   "d": "2026-10-17"
+  },
+  {
+   "d": "2026-10-18"
+  },
+  {
+   "d": "2026-10-19",
+   "gym": 1
+  },
+  {
+   "d": "2026-10-20"
+  },
+  {
+   "d": "2026-10-21",
+   "gym": 1
+  },
+  {
+   "d": "2026-10-22"
+  },
+  {
+   "d": "2026-10-23",
+   "km": 11.4,
+   "gym": 1
+  },
+  {
+   "d": "2026-10-24"
+  },
+  {
+   "d": "2026-10-25",
+   "km": 11.2
+  },
+  {
+   "d": "2026-10-26",
+   "gym": 1
+  },
+  {
+   "d": "2026-10-27",
+   "km": 11.0
+  },
+  {
+   "d": "2026-10-28",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-10-29",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.04,
+   "km": 10.8
+  },
+  {
+   "d": "2026-10-30",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-10-31",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.08,
+   "km": 10.6
+  },
+  {
+   "d": "2026-11-01",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-02",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.12,
+   "km": 10.4,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-03",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-04",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.16,
+   "km": 10.2,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-05",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-06",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.2,
+   "km": 10.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-07",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-08",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.24,
+   "km": 9.8
+  },
+  {
+   "d": "2026-11-09",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-10",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.28,
+   "km": 9.6
+  },
+  {
+   "d": "2026-11-11",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-12",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.32,
+   "km": 9.4
+  },
+  {
+   "d": "2026-11-13",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-14",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.36,
+   "km": 9.2
+  },
+  {
+   "d": "2026-11-15",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-16",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.4,
+   "km": 9.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-17",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-18",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0,
+   "peso": 78.44,
+   "km": 8.8,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-19",
+   "sueno_h": 7.5,
+   "sueno_pts": 75.0,
+   "hrv": 62.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 47.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-20",
+   "sueno_h": 6.5,
+   "sueno_pts": 75.0,
+   "hrv": 50.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 52.0,
+   "bb": 80.0,
+   "peso": 78.48,
+   "km": 8.6,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-21",
+   "sueno_h": 6.5,
+   "sueno_pts": 75.0,
+   "hrv": 50.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 52.0,
+   "bb": 80.0
+  },
+  {
+   "d": "2026-11-22",
+   "sueno_h": 6.5,
+   "sueno_pts": 75.0,
+   "hrv": 50.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 52.0,
+   "bb": 80.0,
+   "peso": 78.52,
+   "km": 8.4
+  },
+  {
+   "d": "2026-11-23",
+   "sueno_h": 6.5,
+   "sueno_pts": 75.0,
+   "hrv": 50.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 52.0,
+   "bb": 80.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-24",
+   "sueno_h": 6.5,
+   "sueno_pts": 75.0,
+   "hrv": 50.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 52.0,
+   "bb": 80.0,
+   "peso": 78.56,
+   "km": 8.2
+  },
+  {
+   "d": "2026-11-25",
+   "sueno_h": 6.5,
+   "sueno_pts": 75.0,
+   "hrv": 50.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 52.0,
+   "bb": 80.0,
+   "gym": 1
+  },
+  {
+   "d": "2026-11-26",
+   "sueno_h": 6.5,
+   "sueno_pts": 75.0,
+   "hrv": 50.0,
+   "hrv_lo": 56.0,
+   "hrv_hi": 70.0,
+   "fcr": 52.0,
+   "bb": 80.0,
+   "peso": 78.6,
+   "km": 8.0
+  }
+ ],
+ "estado": {
+  "garmin": {
+   "ok": true,
+   "ultimo_intento": "2026-11-26 07:20",
+   "ultima_ok": "2026-11-26 07:20",
+   "detalle": ""
+  },
+  "hevy": {
+   "ok": false,
+   "ultimo_intento": "2026-11-26 07:20",
+   "ultima_ok": "2026-11-25 07:20",
+   "detalle": "HevyError: ejemplo"
+  }
+ }
+}

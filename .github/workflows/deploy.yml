@@ -35,10 +35,11 @@ jobs:
           echo "${GRADLE_SHA256}  $RUNNER_TEMP/gradle.zip" | sha256sum -c -
           unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
 
-      - name: Compilar Kotlin/Wasm (dependencias verificadas con verification-metadata.xml)
+      - name: Tests y compilación Kotlin/Wasm (dependencias verificadas con verification-metadata.xml)
         run: |
           export JAVA_HOME="$JAVA_HOME_21_X64"
-          "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin/gradle" --no-daemon wasmJsBrowserDistribution
+          # Si falla un test (contrato con Python, cifrado, estados, presentadores) no se publica nada
+          "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin/gradle" --no-daemon wasmJsNodeTest wasmJsBrowserDistribution
           rm -f build/dist/wasmJs/productionExecutable/*.map
           touch build/dist/wasmJs/productionExecutable/.nojekyll
 
