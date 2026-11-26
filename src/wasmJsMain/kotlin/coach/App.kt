@@ -32,7 +32,11 @@ private suspend fun start() {
     val enc = try {
         json.decodeFromString(Encrypted.serializer(), fetchText(dataUrl()).await<JsString>().toString())
     } catch (e: Throwable) {
-        showLock(); msg.textContent = "No se pudieron cargar los datos. Reintenta en un momento."; return
+        showLock()
+        msg.textContent = if (e.message?.contains("404") == true)
+            "Aún no hay datos publicados: llegarán con la próxima sincronización."
+        else "No se pudieron cargar los datos. Reintenta en un momento."
+        return
     }
     val saved = keyLoad().await<JsAny?>()
     if (saved != null) {
