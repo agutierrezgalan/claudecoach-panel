@@ -25,9 +25,10 @@ data class Payload(
     val estado: Map<String, Estado> = emptyMap(),
 )
 
+/** Estado de una fuente. status.json guarda también apuntes sin "ok" (p. ej. hevy_cuota): se leen como no OK. */
 @Serializable
 data class Estado(
-    val ok: Boolean,
+    val ok: Boolean = false,
     @SerialName("ultimo_intento") val ultimoIntento: String? = null,
     @SerialName("ultima_ok") val ultimaOk: String? = null,
 )

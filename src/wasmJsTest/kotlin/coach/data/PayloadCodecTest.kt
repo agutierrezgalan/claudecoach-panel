@@ -60,4 +60,16 @@ class PayloadCodecTest {
         val p = PayloadCodec.decodePayload(json).ok()
         assertEquals(null, p.metricas.preparacion.nivel)
     }
+
+    @Test
+    fun statusEntriesThatAreNotSourcesDoNotBreakTheLoad() {
+        // status.json guarda también apuntes sin "ok" (p. ej. la cuota de Hevy): no deben dar Corrupt
+        val json = ContractFixtures.PLAIN.replaceFirst(
+            "\"estado\": {",
+            "\"estado\": {\"hevy_cuota\": {\"fecha\": \"2026-11-26\", \"intentos\": 1, \"ultimo_ok\": null},",
+        )
+        val p = PayloadCodec.decodePayload(json).ok()
+        assertEquals(true, p.estado["garmin"]?.ok)
+        assertEquals(false, p.estado["hevy_cuota"]?.ok)
+    }
 }
