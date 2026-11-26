@@ -334,6 +334,38 @@
          "te_anaerobico"
         ]
        }
+      },
+      "dias_pista": {
+       "type": "object",
+       "required": [
+        "dias",
+        "hora_media",
+        "sesiones_8_sem",
+        "ultima"
+       ],
+       "properties": {
+        "dias": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "hora_media": {
+         "type": [
+          "string",
+          "null"
+         ]
+        },
+        "sesiones_8_sem": {
+         "type": "integer"
+        },
+        "ultima": {
+         "type": [
+          "string",
+          "null"
+         ]
+        }
+       }
       }
      },
      "required": [
@@ -593,6 +625,81 @@
         "number",
         "null"
        ]
+      },
+      "inbody": {
+       "description": "Mediciones InBody (añadido compatible de v2).",
+       "type": [
+        "object",
+        "null"
+       ],
+       "properties": {
+        "ultimo": {
+         "type": "object",
+         "required": [
+          "fecha",
+          "peso_kg"
+         ]
+        },
+        "anterior": {
+         "type": [
+          "object",
+          "null"
+         ]
+        },
+        "mismo_equipo": {
+         "type": "boolean"
+        },
+        "dias_entre": {
+         "type": [
+          "integer",
+          "null"
+         ]
+        },
+        "cambios": {
+         "type": [
+          "object",
+          "null"
+         ]
+        },
+        "desde_primero": {
+         "type": [
+          "object",
+          "null"
+         ]
+        },
+        "serie": {
+         "type": "array"
+        }
+       }
+      },
+      "ritmo_peso": {
+       "type": [
+        "object",
+        "null"
+       ],
+       "properties": {
+        "kg_semana": {
+         "type": "number"
+        },
+        "pct_semana": {
+         "type": "number"
+        },
+        "fuente": {
+         "enum": [
+          "Garmin",
+          "InBody"
+         ]
+        },
+        "fase": {
+         "type": "string"
+        },
+        "objetivo_pct_semana": {
+         "type": "array"
+        },
+        "en_rango": {
+         "type": "boolean"
+        }
+       }
       }
      }
     },
@@ -830,6 +937,94 @@
          }
         }
        }
+      }
+     }
+    },
+    "objetivo": {
+     "type": "object",
+     "required": [
+      "fase"
+     ],
+     "properties": {
+      "fase": {
+       "enum": [
+        "definicion",
+        "volumen",
+        "recomposicion",
+        "mantenimiento"
+       ]
+      }
+     }
+    },
+    "nutricion": {
+     "description": "Plan de dieta del mes, macros ESTIMADAS (añadido compatible de v2).",
+     "type": [
+      "object",
+      "null"
+     ],
+     "required": [
+      "plan",
+      "estimado",
+      "tipos",
+      "dias_7d",
+      "kcal_media_7d"
+     ],
+     "properties": {
+      "plan": {
+       "type": "string"
+      },
+      "estimado": {
+       "const": true
+      },
+      "tipos": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "object",
+        "required": [
+         "kcal",
+         "proteina_g",
+         "carbohidratos_g",
+         "grasa_g"
+        ],
+        "properties": {
+         "kcal": {
+          "type": "number"
+         },
+         "proteina_g": {
+          "type": "number"
+         },
+         "carbohidratos_g": {
+          "type": "number"
+         },
+         "grasa_g": {
+          "type": "number"
+         }
+        }
+       }
+      },
+      "peso_ref": {
+       "type": [
+        "object",
+        "null"
+       ]
+      },
+      "proteina_g_kg": {
+       "type": [
+        "object",
+        "null"
+       ]
+      },
+      "carbohidratos_g_kg": {
+       "type": [
+        "object",
+        "null"
+       ]
+      },
+      "dias_7d": {
+       "type": "object"
+      },
+      "kcal_media_7d": {
+       "type": "number"
       }
      }
     }

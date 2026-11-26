@@ -756,7 +756,13 @@
      "te_aerobico": 3.1,
      "te_anaerobico": null
     }
-   ]
+   ],
+   "dias_pista": {
+    "dias": [],
+    "hora_media": null,
+    "sesiones_8_sem": 0,
+    "ultima": null
+   }
   },
   "carga": {
    "carga_garmin": {
@@ -801,6 +807,80 @@
    "body_battery_max_media_7d": 80.0
   },
   "composicion": {
+   "inbody": {
+    "ultimo": {
+     "fecha": "2026-11-01",
+     "hora": "19:00",
+     "equipo": "InBodyX",
+     "peso_kg": 79.0,
+     "masa_muscular_kg": 36.2,
+     "masa_grasa_kg": 12.8,
+     "grasa_pct": 16.2,
+     "angulo_fase": null,
+     "ratio_aec": 0.376,
+     "tmb_kcal": null,
+     "peso_objetivo_kg": null
+    },
+    "anterior": {
+     "fecha": "2026-10-01",
+     "hora": "19:00",
+     "equipo": "InBodyX",
+     "peso_kg": 80.0,
+     "masa_muscular_kg": 36.0,
+     "masa_grasa_kg": 14.0,
+     "grasa_pct": 17.5,
+     "angulo_fase": null,
+     "ratio_aec": 0.375,
+     "tmb_kcal": null,
+     "peso_objetivo_kg": null
+    },
+    "mismo_equipo": true,
+    "dias_entre": 31,
+    "cambios": {
+     "peso_kg": -1.0,
+     "masa_muscular_kg": 0.2,
+     "masa_grasa_kg": -1.2,
+     "grasa_pct": -1.3,
+     "masa_libre_grasa_kg": 0.2,
+     "agua_total_l": 0.2,
+     "magro_tronco_kg": 0.1,
+     "magro_brazos_kg": 0.1,
+     "magro_piernas_kg": 0.1
+    },
+    "desde_primero": {
+     "fecha": "2026-10-01",
+     "cambio_de_equipo": false,
+     "cambios": {
+      "peso_kg": -1.0,
+      "masa_muscular_kg": 0.2,
+      "masa_grasa_kg": -1.2,
+      "grasa_pct": -1.3,
+      "masa_libre_grasa_kg": 0.2,
+      "agua_total_l": 0.2,
+      "magro_tronco_kg": 0.1,
+      "magro_brazos_kg": 0.1,
+      "magro_piernas_kg": 0.1
+     }
+    },
+    "serie": [
+     {
+      "fecha": "2026-10-01",
+      "equipo": "InBodyX",
+      "peso_kg": 80.0,
+      "masa_muscular_kg": 36.0,
+      "masa_grasa_kg": 14.0,
+      "grasa_pct": 17.5
+     },
+     {
+      "fecha": "2026-11-01",
+      "equipo": "InBodyX",
+      "peso_kg": 79.0,
+      "masa_muscular_kg": 36.2,
+      "masa_grasa_kg": 12.8,
+      "grasa_pct": 16.2
+     }
+    ]
+   },
    "ultimo": {
     "fecha": "2026-11-26",
     "peso_kg": 78.6,
@@ -809,7 +889,18 @@
    },
    "peso_medio_7d": 78.54,
    "peso_medio_hace_3_4_sem": 78.1,
-   "kg_por_semana": 0.11
+   "kg_por_semana": 0.11,
+   "ritmo_peso": {
+    "kg_semana": 0.11,
+    "pct_semana": 0.14,
+    "fuente": "Garmin",
+    "fase": "definicion",
+    "objetivo_pct_semana": [
+     -1.0,
+     -0.25
+    ],
+    "en_rango": false
+   }
   },
   "otros_entrenos": {
    "semanas": [
@@ -904,6 +995,59 @@
    ],
    "ultimas_2_semanas": []
   },
+  "nutricion": {
+   "plan": "2026-11",
+   "fuente": "sintético",
+   "estimado": true,
+   "notas": [
+    "Plan de ejemplo para tests"
+   ],
+   "tipos": {
+    "gym_o_descanso": {
+     "kcal": 1400.2,
+     "proteina_g": 122.2,
+     "carbohidratos_g": 137.6,
+     "grasa_g": 36.4,
+     "por_comida": {
+      "desayuno": 367.4,
+      "comida": 522.0,
+      "cena": 510.8
+     }
+    },
+    "carrera": {
+     "kcal": 1743.5,
+     "proteina_g": 130.0,
+     "carbohidratos_g": 208.3,
+     "grasa_g": 38.9,
+     "por_comida": {
+      "desayuno": 525.7,
+      "comida": 630.0,
+      "cena": 587.8
+     }
+    }
+   },
+   "peso_ref": {
+    "kg": 78.6,
+    "fecha": "2026-11-26",
+    "fuente": "Garmin"
+   },
+   "proteina_g_kg": {
+    "gym_o_descanso": 1.55,
+    "carrera": 1.65
+   },
+   "carbohidratos_g_kg": {
+    "gym_o_descanso": 1.75,
+    "carrera": 2.65
+   },
+   "dias_7d": {
+    "gym_o_descanso": 3,
+    "carrera": 4
+   },
+   "kcal_media_7d": 1596
+  },
+  "objetivo": {
+   "fase": "definicion"
+  },
   "umbrales": {
    "acwr": {
     "min_ok": 0.8,
@@ -956,6 +1100,8 @@
    "hombro_posterior: 4,5 series en 2026-W47 (bajo; objetivo 6-14)",
    "cuadriceps: 6 series en 2026-W47 (bajo; objetivo 8-14)",
    "gluteos: 3 series en 2026-W47 (bajo; objetivo 6-14)",
+   "Proteína del plan por debajo de 1,6 g/kg en: gym_o_descanso (1,55) — coméntalo con tu nutricionista",
+   "Peso: 0,11 kg/sem (0,14 %/sem, Garmin); en definicion se busca -1 a -0,25 %/sem — coméntalo con tu nutricionista",
    "Ejercicios sin grupo muscular: Mystery Machine"
   ]
  },
