@@ -5,8 +5,10 @@ import coach.data.Estado
 import coach.data.Metricas
 import coach.presentation.AcwrRow
 import coach.presentation.AlertItem
+import coach.presentation.CompositionView
 import coach.presentation.MuscleRow
 import coach.presentation.MuscleStatus
+import coach.presentation.NutritionView
 import coach.presentation.Presenters
 import coach.presentation.ReadinessView
 import coach.presentation.Tone
@@ -106,15 +108,8 @@ fun renderTiles(m: Metricas) {
         val cur = wk.last()
         host.add(tile("Series esta semana", cur.series.toString(), "", "${cur.sesiones} sesiones · semana pasada ${wk[wk.size - 2].series}"))
     }
-    val b = m.composicion
-    if (!b.sinDatos && b.ultimo != null) {
-        val k = b.kgSemana
-        host.add(tile("Peso medio 7 días", b.peso7.es(), " kg",
-            if (k != null) "Ritmo ${if (k > 0) "+" else ""}${k.es(2)} kg/sem" else "Último ${b.ultimo.peso.es()} kg",
-            when { k == null -> null; k < 0 || k > 0.5 -> Tone.WARN; else -> Tone.GOOD }))
-    } else {
-        host.add(tile("Peso", "—", "", "Sin pesajes en Garmin"))
-    }
+    val w = Presenters.weightTile(m.composicion)
+    host.add(tile(w.label, w.value, w.unit, w.sub, w.tone))
 }
 
 fun renderMuscles(rows: List<MuscleRow>, unmapped: Collection<String>) {
@@ -205,7 +200,71 @@ fun renderAcwr(rows: List<AcwrRow>) {
     }
 }
 
+private fun setText(id: String, text: String?) {
+    val e = required<HTMLElement>(id)
+    e.textContent = text.orEmpty()
+    e.hidden = text == null
+}
+
+fun renderComposition(v: CompositionView?) {
+    val card = required<HTMLElement>("body-card")
+    card.hidden = v == null
+    if (v == null) return
+    required<HTMLElement>("body-title").textContent = listOfNotNull(v.title, v.phase).joinToString(" · ")
+    val stats = required<HTMLElement>("body-stats")
+    stats.clear()
+    for (s in v.stats) {
+        val box = el("div", "stat")
+        box.add(el("div", "lbl", s.label))
+        box.add(el("div", "val", s.value))
+        if (s.delta.isNotEmpty()) box.add(el("div", "dlt " + s.tone.css(), s.delta))
+        stats.add(box)
+    }
+    val segs = required<HTMLElement>("body-segments")
+    segs.clear()
+    segs.hidden = v.segments.isEmpty()
+    if (v.segments.isNotEmpty()) segs.add(el("span", "seg-lbl", "Masa magra:"))
+    for (s in v.segments) {
+        val chip = el("span", "seg")
+        chip.add(el("span", "seg-lbl", s.label + " "))
+        chip.add(el("b", s.tone.css(), s.delta))
+        segs.add(chip)
+    }
+    setText("body-note", v.note)
+    setText("body-rate", v.rate)
+    pointsChart(required("ch-muscle"), v.muscleSeries, " kg", "Masa muscular por medición")
+    pointsChart(required("ch-fat"), v.fatSeries, " kg", "Masa grasa por medición")
+    setText("body-series-note", v.seriesNote)
+}
+
+fun renderNutrition(v: NutritionView?) {
+    val card = required<HTMLElement>("diet-card")
+    card.hidden = v == null
+    if (v == null) return
+    required<HTMLElement>("diet-note").textContent = v.note
+    val host = required<HTMLElement>("diet")
+    host.clear()
+    val t = el("table")
+    val head = el("tr")
+    listOf("Día", "kcal", "Prot. g/kg", "HC g/kg", "Grasa g").forEachIndexed { i, h -> head.add(el("th", if (i > 0) "n" else null, h)) }
+    t.add(el("thead")).add(head)
+    val body = el("tbody")
+    for (r in v.rows) {
+        val tr = el("tr")
+        tr.add(el("td", null, r.type))
+        tr.add(el("td", "n", r.kcal))
+        tr.add(el("td", "n " + r.proteinTone.css(), r.proteinPerKg))
+        tr.add(el("td", "n", r.carbsPerKg))
+        tr.add(el("td", "n", r.fat))
+        body.add(tr)
+    }
+    t.add(body)
+    host.add(t)
+    setText("diet-week", v.week)
+}
+
 fun renderRunning(m: Metricas) {
+    setText("track", Presenters.trackDays(m.carrera.diasPista))
     columnChart(required("run-weeks"), m.carrera.semanas.map { w ->
         val current = w.semana == m.semanaActual
         Column(w.km, weekLabel(w.semana), current, listOf(

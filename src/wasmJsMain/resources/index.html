@@ -75,6 +75,28 @@
     <div id="e1rm" class="e1rm"></div>
   </section>
 
+  <section class="card" id="body-card" hidden>
+    <h2>Composición (InBody)</h2>
+    <p id="body-title" class="muted small"></p>
+    <div id="body-stats" class="stats"></div>
+    <div id="body-segments" class="segments" aria-label="Masa magra por segmentos"></div>
+    <p id="body-note" class="small t-warn" hidden></p>
+    <p id="body-rate" class="small"></p>
+    <div class="multiples">
+      <figure><figcaption>Masa muscular (kg)</figcaption><div id="ch-muscle" class="chart"></div></figure>
+      <figure><figcaption>Masa grasa (kg)</figcaption><div id="ch-fat" class="chart"></div></figure>
+    </div>
+    <p id="body-series-note" class="muted small" hidden></p>
+  </section>
+
+  <section class="card" id="diet-card" hidden>
+    <h2>Dieta del plan</h2>
+    <p id="diet-note" class="muted small"></p>
+    <div id="diet" class="table-wrap"></div>
+    <p id="diet-week" class="small"></p>
+    <p class="muted small">Es el plan de tu nutricionista: cualquier cambio, coméntalo en consulta.</p>
+  </section>
+
   <section class="card">
     <h2>Carga aguda / crónica</h2>
     <p class="muted small">Últimos 7 días ÷ media semanal de 28 días. Franja 0,8-1,3 habitual; &gt;1,5 pico.</p>
@@ -84,6 +106,7 @@
   <section class="card">
     <h2>Carrera</h2>
     <p class="muted small">Km por semana. Las sesiones las pauta tu entrenador.</p>
+    <p id="track" class="small" hidden></p>
     <div id="run-weeks" class="chart"></div>
     <div id="runs" class="table-wrap"></div>
   </section>

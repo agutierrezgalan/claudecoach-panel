@@ -42,6 +42,8 @@ data class Metricas(
     val carga: Carga,
     val recuperacion: Recuperacion,
     val composicion: Composicion = Composicion(),
+    val nutricion: Nutricion? = null,
+    val objetivo: Objetivo = Objetivo(),
     val umbrales: Umbrales = Umbrales(),
     val preparacion: Preparacion = Preparacion(),
     val alertas: List<String> = emptyList(),
@@ -117,6 +119,16 @@ data class Sesion(val fecha: String = "", val kg: Double? = null, val reps: Int?
 data class Carrera(
     val semanas: List<SemanaCarrera> = emptyList(),
     @SerialName("ultimas_2_semanas") val recientes: List<Salida> = emptyList(),
+    @SerialName("dias_pista") val diasPista: DiasPista? = null,
+)
+
+/** Patrón de las sesiones del entrenador en la pista (últimas 8 semanas). */
+@Serializable
+data class DiasPista(
+    val dias: List<String> = emptyList(),
+    @SerialName("hora_media") val horaMedia: String? = null,
+    @SerialName("sesiones_8_sem") val sesiones: Int = 0,
+    val ultima: String? = null,
 )
 
 @Serializable
@@ -187,7 +199,68 @@ data class Composicion(
     val ultimo: Pesaje? = null,
     @SerialName("peso_medio_7d") val peso7: Double? = null,
     @SerialName("kg_por_semana") val kgSemana: Double? = null,
+    val inbody: Inbody? = null,
+    @SerialName("ritmo_peso") val ritmo: RitmoPeso? = null,
 )
+
+@Serializable
+data class Objetivo(val fase: String? = null)
+
+@Serializable
+data class Inbody(
+    val ultimo: Medicion? = null,
+    val anterior: Medicion? = null,
+    @SerialName("mismo_equipo") val mismoEquipo: Boolean? = null,
+    @SerialName("dias_entre") val diasEntre: Int? = null,
+    /** Diferencias con la medición anterior: peso_kg, masa_muscular_kg, magro_piernas_kg… */
+    val cambios: Map<String, Double?>? = null,
+    val serie: List<Medicion> = emptyList(),
+)
+
+@Serializable
+data class Medicion(
+    val fecha: String = "",
+    val equipo: String? = null,
+    @SerialName("peso_kg") val peso: Double? = null,
+    @SerialName("masa_muscular_kg") val musculo: Double? = null,
+    @SerialName("masa_grasa_kg") val grasa: Double? = null,
+    @SerialName("grasa_pct") val grasaPct: Double? = null,
+)
+
+/** Ritmo de peso frente al esperado para la fase (Garmin si hay pesajes; si no, InBody). */
+@Serializable
+data class RitmoPeso(
+    @SerialName("kg_semana") val kgSemana: Double? = null,
+    @SerialName("pct_semana") val pctSemana: Double? = null,
+    val fuente: String? = null,
+    val fase: String? = null,
+    @SerialName("objetivo_pct_semana") val objetivo: List<Double> = emptyList(),
+    @SerialName("en_rango") val enRango: Boolean? = null,
+)
+
+/** Plan de dieta del mes: kcal y macros ESTIMADAS a partir de las raciones (±15 %). */
+@Serializable
+data class Nutricion(
+    val plan: String? = null,
+    val estimado: Boolean = true,
+    val tipos: Map<String, TipoDia> = emptyMap(),
+    @SerialName("peso_ref") val pesoRef: PesoRef? = null,
+    @SerialName("proteina_g_kg") val proteina: Map<String, Double?> = emptyMap(),
+    @SerialName("carbohidratos_g_kg") val hidratos: Map<String, Double?> = emptyMap(),
+    @SerialName("dias_7d") val dias: Map<String, Int> = emptyMap(),
+    @SerialName("kcal_media_7d") val kcalMedia: Double? = null,
+)
+
+@Serializable
+data class TipoDia(
+    val kcal: Double? = null,
+    @SerialName("proteina_g") val proteina: Double? = null,
+    @SerialName("carbohidratos_g") val hidratos: Double? = null,
+    @SerialName("grasa_g") val grasa: Double? = null,
+)
+
+@Serializable
+data class PesoRef(val kg: Double? = null, val fecha: String? = null, val fuente: String? = null)
 
 @Serializable
 data class Pesaje(

@@ -50,9 +50,26 @@ fun lineChart(
     bandLo: ((Dia) -> Double?)? = null,
     bandHi: ((Dia) -> Double?)? = null,
     connectGaps: Boolean = false,
+) = lineChart(host, days, Dia::d, value, unit, label, decimals, bandLo, bandHi, connectGaps)
+
+/** Serie de puntos (fecha, valor) a intervalos regulares, p. ej. mediciones InBody. */
+fun pointsChart(host: HTMLElement, points: List<Pair<String, Double>>, unit: String, label: String) =
+    lineChart(host, points, { it.first }, { it.second }, unit, label, connectGaps = true)
+
+private fun <T> lineChart(
+    host: HTMLElement,
+    days: List<T>,
+    date: (T) -> String,
+    value: (T) -> Double?,
+    unit: String,
+    label: String,
+    decimals: Int = 1,
+    bandLo: ((T) -> Double?)? = null,
+    bandHi: ((T) -> Double?)? = null,
+    connectGaps: Boolean = false,
 ) {
     host.clear()
-    val pts = days.mapIndexedNotNull { i, d -> value(d)?.let { Point(i, d.d, it) } }
+    val pts = days.mapIndexedNotNull { i, d -> value(d)?.let { Point(i, date(d), it) } }
     if (pts.size < 2 || days.size < 2) {
         host.add(el("div", "empty", "Aún no hay datos suficientes"))
         return
@@ -75,7 +92,7 @@ fun lineChart(
     }
     for (i in listOf(0, (n - 1) / 2, n - 1)) {
         val anchor = when (i) { 0 -> "start"; n - 1 -> "end"; else -> "middle" }
-        svg("text", mapOf("x" to x(i), "y" to h - 4, "text-anchor" to anchor), ax, shortDayLabel(days[i].d))
+        svg("text", mapOf("x" to x(i), "y" to h - 4, "text-anchor" to anchor), ax, shortDayLabel(date(days[i])))
     }
     if (bandLo != null && bandHi != null) {
         // (índice, inferior, superior) solo de los días con banda completa

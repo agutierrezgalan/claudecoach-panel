@@ -94,6 +94,8 @@ class PanelView(private val controller: PanelController, private val scope: Coro
         fillWeekSelect(p)
         renderWeek(p)
         renderE1rm(m)
+        renderComposition(Presenters.composition(m.composicion, m.objetivo.fase))
+        renderNutrition(m.nutricion?.let(Presenters::nutrition))
         renderAcwr(Presenters.acwr(m.carga, m.umbrales.acwr))
         renderRunning(m)
         renderRecovery(p.diario)
