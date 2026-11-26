@@ -1,0 +1,7 @@
+.gradle/
+build/
+.kotlin/
+*.iml
+.idea/
+# Los datos cifrados viven en la rama `data`, nunca en main
+data.json

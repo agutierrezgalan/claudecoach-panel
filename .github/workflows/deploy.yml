@@ -1,0 +1,61 @@
+name: Desplegar panel
+
+# Compila la app Kotlin/Wasm y la publica en GitHub Pages.
+# Los datos (cifrados) NO están aquí: la app los lee de la rama `data`.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  GRADLE_VERSION: "9.8.2"
+  # https://gradle.org/release-checksums/ (Binary-only ZIP)
+  GRADLE_SHA256: "21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Gradle (verificado por SHA-256)
+        run: |
+          curl -fsSLo "$RUNNER_TEMP/gradle.zip" "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
+          echo "${GRADLE_SHA256}  $RUNNER_TEMP/gradle.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
+
+      - name: Compilar Kotlin/Wasm (dependencias verificadas con verification-metadata.xml)
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin/gradle" --no-daemon wasmJsBrowserDistribution
+          rm -f build/dist/wasmJs/productionExecutable/*.map
+          touch build/dist/wasmJs/productionExecutable/.nojekyll
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: build/dist/wasmJs/productionExecutable
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
