@@ -805,6 +805,99 @@
    "peso_medio_hace_3_4_sem": 78.1,
    "kg_por_semana": 0.11
   },
+  "otros_entrenos": {
+   "semanas": [
+    {
+     "semana": "2026-W41",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    },
+    {
+     "semana": "2026-W42",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    },
+    {
+     "semana": "2026-W43",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    },
+    {
+     "semana": "2026-W44",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    },
+    {
+     "semana": "2026-W45",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    },
+    {
+     "semana": "2026-W46",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    },
+    {
+     "semana": "2026-W47",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    },
+    {
+     "semana": "2026-W48",
+     "minutos": {
+      "fuerza": 0.0,
+      "cardio": 0.0,
+      "suave": 0.0,
+      "otros": 0.0
+     },
+     "sesiones": 0,
+     "fuerza_vinculada_hevy": 0
+    }
+   ],
+   "ultimas_2_semanas": []
+  },
   "umbrales": {
    "acwr": {
     "min_ok": 0.8,
