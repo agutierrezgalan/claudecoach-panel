@@ -7,25 +7,12 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
-/** Decodifica el sobre y el payload, comprobando las versiones del contrato. */
+/** Decodifica el payload del backend comprobando la versión del contrato. */
 object PayloadCodec {
     /** Versiones del payload (`schema_version`) que esta app sabe leer. */
     val SUPPORTED_SCHEMA: IntRange = 2..2
-    private const val ENVELOPE_VERSION = 1
 
     private val json = Json { ignoreUnknownKeys = true; coerceInputValues = true }
-
-    fun decodeEnvelope(text: String): Outcome<Envelope, LoadError> {
-        val env = try {
-            json.decodeFromString(Envelope.serializer(), text)
-        } catch (e: SerializationException) {
-            return Outcome.Err(LoadError.Corrupt("sobre: ${e.message.orEmpty().take(120)}"))
-        } catch (e: IllegalArgumentException) {
-            return Outcome.Err(LoadError.Corrupt("sobre: ${e.message.orEmpty().take(120)}"))
-        }
-        return if (env.v == ENVELOPE_VERSION) Outcome.Ok(env)
-        else Outcome.Err(LoadError.Corrupt("sobre v${env.v} desconocido"))
-    }
 
     fun decodePayload(text: String): Outcome<Payload, LoadError> = try {
         val root = json.parseToJsonElement(text).jsonObject

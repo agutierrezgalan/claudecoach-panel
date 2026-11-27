@@ -1,9 +1,9 @@
 package coach.presentation
 
 import coach.core.Outcome
-import coach.data.Envelope
 import coach.data.LoadError
 import coach.data.PanelRepository
+import coach.data.Payload
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,31 +20,27 @@ class PanelController private constructor(
 
     private val _state = MutableStateFlow(initial)
     val state: StateFlow<PanelState> = _state.asStateFlow()
-    private var envelope: Envelope? = null
 
     fun start() = act { repo ->
         _state.value = PanelState.Loading
-        when (val env = repo.envelope()) {
-            is Outcome.Err -> _state.value = PanelState.Failed(env.error)
-            is Outcome.Ok -> {
-                envelope = env.value
-                _state.value = when (val opened = repo.openWithStoredKey(env.value)) {
-                    null -> PanelState.Locked(error = null)
-                    else -> opened.toState()
-                }
-            }
-        }
+        _state.value = repo.openWithSession()?.toState() ?: PanelState.Locked(error = null)
     }
 
-    fun unlock(password: String, remember: Boolean) = act { repo ->
-        val env = envelope ?: return@act
+    /** Entrar con Face ID. */
+    fun login() = act { repo ->
         _state.value = PanelState.Locked(error = null, busy = true)
-        _state.value = repo.unlock(env, password, remember).toState()
+        _state.value = repo.loginWithPasskey().toState()
     }
 
-    fun forget() = act { repo ->
-        repo.forget()
-        if (envelope != null) _state.value = PanelState.Locked(error = null)
+    /** Activar Face ID en este dispositivo (la primera vez), con la contraseña del panel. */
+    fun register(password: String) = act { repo ->
+        _state.value = PanelState.Locked(error = null, busy = true)
+        _state.value = repo.registerPasskey(password).toState()
+    }
+
+    fun logout() = act { repo ->
+        repo.logout()
+        _state.value = PanelState.Locked(error = null)
     }
 
     private fun act(block: suspend (PanelRepository) -> Unit) {
@@ -52,13 +48,19 @@ class PanelController private constructor(
         scope?.launch { block(r) }
     }
 
-    private fun Outcome<coach.data.Payload, LoadError>.toState(): PanelState = when (this) {
+    private fun Outcome<Payload, LoadError>.toState(): PanelState = when (this) {
         is Outcome.Ok -> PanelState.Ready(value)
-        is Outcome.Err -> if (error == LoadError.WrongPassword) PanelState.Locked(error) else PanelState.Failed(error)
+        is Outcome.Err -> if (error in RETRYABLE_ON_LOCK) PanelState.Locked(error) else PanelState.Failed(error)
     }
 
     companion object {
-        /** Plataforma sin lo imprescindible (p. ej. WebCrypto): estado final, sin acciones. */
+        /** Errores que se resuelven desde la pantalla de acceso (reintentar Face ID o activar el dispositivo). */
+        private val RETRYABLE_ON_LOCK: Set<LoadError> = setOf(
+            LoadError.Unauthorized, LoadError.NoPasskey, LoadError.PasskeyCancelled, LoadError.PasskeyRejected,
+            LoadError.WrongPassword, LoadError.TooManyAttempts,
+        )
+
+        /** Plataforma sin lo imprescindible (p. ej. sin passkeys): estado final, sin acciones. */
         fun unavailable(error: LoadError): PanelController = PanelController(null, null, PanelState.Failed(error))
     }
 }

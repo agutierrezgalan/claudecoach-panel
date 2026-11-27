@@ -3,38 +3,40 @@ package coach.data
 import coach.core.Outcome
 import coach.core.flatMap
 
-/** Reglas de negocio de la carga: descarga, clave recordada, desbloqueo y olvido. */
+/** Reglas de la carga: sesión guardada, Face ID, registro de la passkey y cierre de sesión. */
 class PanelRepository(
-    private val source: EncryptedSource,
-    private val cipher: Cipher,
-    private val keys: KeyStore,
+    private val api: PanelApi,
+    private val passkeys: Passkeys,
+    private val sessions: SessionStore,
 ) {
-    suspend fun envelope(): Outcome<Envelope, LoadError> = source.fetch().flatMap(PayloadCodec::decodeEnvelope)
-
-    /**
-     * Abre con la clave recordada. Devuelve null si no hay clave o si ya no vale
-     * (contraseña cambiada): en ese caso la borra para no reintentar con ella.
-     */
-    suspend fun openWithStoredKey(envelope: Envelope): Outcome<Payload, LoadError>? {
-        val key = keys.load() ?: return null
-        val result = open(key, envelope)
-        if (result is Outcome.Err && result.error == LoadError.WrongPassword) {
-            keys.clear()
+    /** Abre con la sesión guardada; null si no hay o ha caducado (entonces se olvida). */
+    suspend fun openWithSession(): Outcome<Payload, LoadError>? {
+        val token = sessions.load() ?: return null
+        val result = load(token)
+        if (result is Outcome.Err && result.error == LoadError.Unauthorized) {
+            sessions.clear()
             return null
         }
         return result
     }
 
-    /** Deriva la clave de la contraseña; solo se recuerda si abre los datos y se pidió. */
-    suspend fun unlock(envelope: Envelope, password: String, remember: Boolean): Outcome<Payload, LoadError> =
-        cipher.deriveKey(password, envelope).flatMap { key ->
-            val result = open(key, envelope)
-            if (result is Outcome.Ok && remember) keys.save(key)
-            result
+    /** Face ID -> sesión nueva -> datos. */
+    suspend fun loginWithPasskey(): Outcome<Payload, LoadError> =
+        api.loginOptions().flatMap { passkeys.get(it) }.flatMap { api.login(it) }.flatMap { token ->
+            sessions.save(token)
+            load(token)
         }
 
-    suspend fun forget() = keys.clear()
+    /** Primera vez en un dispositivo: la contraseña del panel autoriza crear la passkey; luego entra. */
+    suspend fun registerPasskey(password: String): Outcome<Payload, LoadError> =
+        api.registrationOptions(password).flatMap { passkeys.create(it) }.flatMap { api.register(it) }
+            .flatMap { loginWithPasskey() }
 
-    private suspend fun open(key: SecretKey, envelope: Envelope): Outcome<Payload, LoadError> =
-        cipher.decrypt(key, envelope).flatMap(PayloadCodec::decodePayload)
+    suspend fun logout() {
+        sessions.load()?.let { api.logout(it) }
+        sessions.clear()
+    }
+
+    private suspend fun load(token: SessionToken): Outcome<Payload, LoadError> =
+        api.panel(token).flatMap { PayloadCodec.decodePayload(it) }
 }

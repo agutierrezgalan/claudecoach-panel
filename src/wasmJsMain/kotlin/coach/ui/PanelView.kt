@@ -1,5 +1,6 @@
 package coach.ui
 
+import coach.data.LoadError
 import coach.data.Payload
 import coach.presentation.Messages
 import coach.presentation.PanelController
@@ -17,15 +18,18 @@ import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.HTMLSelectElement
 import org.w3c.dom.events.Event
 
+private val REGISTER_ERRORS = setOf(LoadError.NoPasskey, LoadError.WrongPassword, LoadError.TooManyAttempts)
+
 /** Enlaza el estado del controlador con el DOM y los gestos del usuario con sus acciones. */
 class PanelView(private val controller: PanelController, private val scope: CoroutineScope) {
     private val boot = required<HTMLElement>("boot")
     private val lock = required<HTMLElement>("lock")
     private val app = required<HTMLElement>("app")
-    private val form = required<HTMLFormElement>("lock-form")
+    private val loginButton = required<HTMLButtonElement>("passkey-login")
+    private val registerBox = required<HTMLElement>("register-box")
+    private val registerForm = required<HTMLFormElement>("register-form")
     private val password = required<HTMLInputElement>("pw")
-    private val remember = required<HTMLInputElement>("remember")
-    private val unlockButton = required<HTMLButtonElement>("unlock")
+    private val registerButton = required<HTMLButtonElement>("register")
     private val lockMessage = required<HTMLElement>("lock-msg")
     private val weekSelect = required<HTMLSelectElement>("week")
 
@@ -34,11 +38,12 @@ class PanelView(private val controller: PanelController, private val scope: Coro
     private var payload: Payload? = null
 
     fun bind() {
-        form.addEventListener("submit", { ev: Event ->
+        loginButton.addEventListener("click", { _: Event -> controller.login() })
+        registerForm.addEventListener("submit", { ev: Event ->
             ev.preventDefault()
-            controller.unlock(password.value, remember.checked)
+            controller.register(password.value)
         })
-        required<HTMLButtonElement>("logout").addEventListener("click", { _: Event -> controller.forget() })
+        required<HTMLButtonElement>("logout").addEventListener("click", { _: Event -> controller.logout() })
         weekSelect.addEventListener("change", { _: Event ->
             selectedWeek = weekSelect.value
             payload?.let(::renderWeek)
@@ -63,15 +68,17 @@ class PanelView(private val controller: PanelController, private val scope: Coro
             }
             is PanelState.Locked -> {
                 document.body?.removeAttribute("data-nivel")
-                unlockButton.disabled = state.busy
+                loginButton.disabled = state.busy
+                registerButton.disabled = state.busy
                 lockMessage.className = if (state.busy || state.error == null) "lock-msg ok" else "lock-msg"
                 lockMessage.textContent = when {
-                    state.busy -> "Descifrando…"
+                    state.busy -> "Verificando…"
                     state.error != null -> Messages.of(state.error)
                     else -> ""
                 }
+                // Sin passkey todavía o contraseña mal: se abre el registro con la contraseña
+                if (state.error in REGISTER_ERRORS) registerBox.setAttribute("open", "")
                 show(lock)
-                if (!state.busy) password.focus()
             }
             is PanelState.Ready -> {
                 password.value = ""

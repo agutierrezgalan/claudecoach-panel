@@ -9,9 +9,10 @@ class MessagesTest {
     @Test
     fun everyErrorHasAHumanMessage() {
         val errors = listOf(
-            LoadError.NoData, LoadError.Network(503), LoadError.Network(null), LoadError.WrongPassword,
-            LoadError.UnsupportedVersion(3, 2..2), LoadError.UnsupportedVersion(1, 2..2),
-            LoadError.Corrupt("x"), LoadError.NoWebCrypto,
+            LoadError.Network(503), LoadError.Network(null), LoadError.WrongPassword,
+            LoadError.UnsupportedVersion(3, 2..2), LoadError.UnsupportedVersion(1, 2..2), LoadError.Corrupt("x"),
+            LoadError.Unauthorized, LoadError.NoPasskey, LoadError.PasskeyCancelled, LoadError.PasskeyRejected,
+            LoadError.TooManyAttempts, LoadError.NoPasskeySupport,
         )
         errors.forEach { assertTrue(Messages.of(it).isNotBlank(), "$it") }
     }

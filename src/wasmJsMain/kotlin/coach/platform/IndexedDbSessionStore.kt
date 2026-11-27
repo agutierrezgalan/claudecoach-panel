@@ -2,27 +2,26 @@
 
 package coach.platform
 
-import coach.data.KeyStore
-import coach.data.SecretKey
+import coach.data.SessionStore
+import coach.data.SessionToken
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 /**
- * Guarda la CryptoKey (no extraíble) en IndexedDB. Si IndexedDB falla (modo privado, bloqueado),
- * se comporta como "no recordar": nunca rompe la app.
+ * Guarda el token de sesión en IndexedDB (no en localStorage). Si IndexedDB falla (modo privado,
+ * bloqueado), se comporta como «sin sesión»: se vuelve a pedir Face ID, nunca rompe la app.
  */
-class IndexedDbKeyStore(
+class IndexedDbSessionStore(
     private val dbName: String = "claudecoach",
-    private val store: String = "k",
-    private val entry: String = "aes",
-) : KeyStore {
+    private val store: String = "s",
+    private val entry: String = "session",
+) : SessionStore {
 
-    override suspend fun load(): SecretKey? =
-        withStore("readonly") { it.get(entry) }?.let { WebCryptoKey(it.assumeType()) }
+    override suspend fun load(): SessionToken? =
+        withStore("readonly") { it.get(entry) }?.let { SessionToken(it.assumeType<JsString>().toString()) }
 
-    override suspend fun save(key: SecretKey) {
-        val cryptoKey = (key as? WebCryptoKey)?.key ?: return
-        withStore("readwrite") { it.put(cryptoKey, entry) }
+    override suspend fun save(token: SessionToken) {
+        withStore("readwrite") { it.put(token.value.toJsString(), entry) }
     }
 
     override suspend fun clear() {
@@ -33,12 +32,16 @@ class IndexedDbKeyStore(
         val factory = globalIndexedDb() ?: return null
         return suspendCancellableCoroutine { cont ->
             val req = try {
-                factory.open(dbName, 1)
+                factory.open(dbName, 2)
             } catch (e: Throwable) {
                 cont.resume(null)
                 return@suspendCancellableCoroutine
             }
-            req.onupgradeneeded = { req.result?.assumeType<IDBDatabase>()?.createObjectStore(store) }
+            req.onupgradeneeded = {
+                val db = req.result?.assumeType<IDBDatabase>()
+                if (db != null && !db.objectStoreNames.contains(store)) db.createObjectStore(store)
+                if (db != null && db.objectStoreNames.contains("k")) db.deleteObjectStore("k") // clave AES antigua
+            }
             req.onsuccess = { cont.resume(req.result?.assumeType<IDBDatabase>()) }
             req.onerror = { cont.resume(null) }
         }

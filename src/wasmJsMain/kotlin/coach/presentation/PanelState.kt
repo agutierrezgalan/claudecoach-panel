@@ -7,7 +7,7 @@ import coach.data.Payload
 sealed interface PanelState {
     data object Loading : PanelState
 
-    /** Pide contraseña; `error` explica el intento anterior; `busy` mientras se descifra. */
+    /** Pide entrar con Face ID; `error` explica el intento anterior; `busy` mientras se verifica. */
     data class Locked(val error: LoadError?, val busy: Boolean = false) : PanelState
 
     data class Ready(val payload: Payload) : PanelState

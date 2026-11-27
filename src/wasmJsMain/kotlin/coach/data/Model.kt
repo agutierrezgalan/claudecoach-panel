@@ -3,19 +3,9 @@ package coach.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// Contrato v2 (ClaudeCoach/contract/panel-v2.schema.json). Campos opcionales con valor por defecto:
+// Contrato v2 (ClaudeCoach/contract/panel-v2.schema.json), servido por GET /v1/panel del backend.
+// Campos opcionales con valor por defecto:
 // lo que la app no conoce se ignora; lo que falta y es obligatorio da LoadError.Corrupt.
-
-/** Sobre cifrado v1: AES-256-GCM con clave PBKDF2-SHA256. */
-@Serializable
-data class Envelope(
-    val v: Int,
-    @SerialName("iter") val iterations: Int,
-    val salt: String,
-    val iv: String,
-    val aad: String,
-    val ct: String,
-)
 
 @Serializable
 data class Payload(

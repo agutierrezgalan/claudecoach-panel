@@ -42,14 +42,6 @@ class PayloadCodecTest {
     @Test
     fun garbageIsCorruptNotACrash() {
         assertIs<LoadError.Corrupt>(PayloadCodec.decodePayload("no es json").err())
-        assertIs<LoadError.Corrupt>(PayloadCodec.decodeEnvelope("{}").err())
-    }
-
-    @Test
-    fun decodesTheEncryptedEnvelope() {
-        val env = PayloadCodec.decodeEnvelope(ContractFixtures.ENCRYPTED).ok()
-        assertEquals(600_000, env.iterations)
-        assertEquals("claudecoach-v1", env.aad)
     }
 
     @Test

@@ -1,34 +1,71 @@
 package coach.presentation
 
 import coach.core.Outcome
-import coach.data.Cipher
-import coach.data.EncryptedSource
-import coach.data.Envelope
-import coach.data.KeyStore
 import coach.data.LoadError
-import coach.data.SecretKey
+import coach.data.PanelApi
+import coach.data.Passkeys
+import coach.data.SessionStore
+import coach.data.SessionToken
 import coach.fixtures.ContractFixtures
 
-class FakeSource(var result: Outcome<String, LoadError> = Outcome.Ok(ContractFixtures.ENCRYPTED)) : EncryptedSource {
-    var calls = 0
-    override suspend fun fetch(): Outcome<String, LoadError> { calls++; return result }
+/** API de mentira: «buena» es la contraseña de registro y «tok-ok» el único token válido. */
+class FakeApi : PanelApi {
+    var hasPasskey = true
+    var panelResult: Outcome<String, LoadError> = Outcome.Ok(ContractFixtures.PLAIN)
+    var tooManyAttempts = false
+    val calls = mutableListOf<String>()
+
+    override suspend fun registrationOptions(password: String): Outcome<String, LoadError> {
+        calls += "registrationOptions"
+        return when {
+            tooManyAttempts -> Outcome.Err(LoadError.TooManyAttempts)
+            password != "buena" -> Outcome.Err(LoadError.WrongPassword)
+            else -> Outcome.Ok("""{"challenge":"reg"}""")
+        }
+    }
+
+    override suspend fun register(credentialJson: String): Outcome<Unit, LoadError> {
+        calls += "register"
+        hasPasskey = true
+        return Outcome.Ok(Unit)
+    }
+
+    override suspend fun loginOptions(): Outcome<String, LoadError> {
+        calls += "loginOptions"
+        return if (hasPasskey) Outcome.Ok("""{"challenge":"login"}""") else Outcome.Err(LoadError.NoPasskey)
+    }
+
+    override suspend fun login(assertionJson: String): Outcome<SessionToken, LoadError> {
+        calls += "login"
+        return Outcome.Ok(SessionToken("tok-ok"))
+    }
+
+    override suspend fun panel(token: SessionToken): Outcome<String, LoadError> {
+        calls += "panel"
+        return if (token.value == "tok-ok") panelResult else Outcome.Err(LoadError.Unauthorized)
+    }
+
+    override suspend fun logout(token: SessionToken) {
+        calls += "logout"
+    }
 }
 
-class FakeKey(val password: String) : SecretKey
-
-/** Cifrado de mentira: la "clave" recuerda la contraseña y solo "buena" descifra. */
-class FakeCipher(var plaintext: String = ContractFixtures.PLAIN) : Cipher {
-    override suspend fun deriveKey(password: String, envelope: Envelope): Outcome<SecretKey, LoadError> =
-        Outcome.Ok(FakeKey(password))
-    override suspend fun decrypt(key: SecretKey, envelope: Envelope): Outcome<String, LoadError> =
-        if ((key as? FakeKey)?.password == "buena") Outcome.Ok(plaintext) else Outcome.Err(LoadError.WrongPassword)
-    fun keyFor(password: String): SecretKey = FakeKey(password)
+class FakePasskeys(var cancel: Boolean = false) : Passkeys {
+    var creates = 0
+    var gets = 0
+    override suspend fun create(optionsJson: String): Outcome<String, LoadError> {
+        creates++
+        return if (cancel) Outcome.Err(LoadError.PasskeyCancelled) else Outcome.Ok("""{"id":"cred"}""")
+    }
+    override suspend fun get(optionsJson: String): Outcome<String, LoadError> {
+        gets++
+        return if (cancel) Outcome.Err(LoadError.PasskeyCancelled) else Outcome.Ok("""{"id":"cred"}""")
+    }
 }
 
-class FakeKeyStore(var stored: SecretKey? = null) : KeyStore {
-    var saves = 0
+class FakeSessionStore(var stored: SessionToken? = null) : SessionStore {
     var clears = 0
-    override suspend fun load(): SecretKey? = stored
-    override suspend fun save(key: SecretKey) { saves++; stored = key }
+    override suspend fun load(): SessionToken? = stored
+    override suspend fun save(token: SessionToken) { stored = token }
     override suspend fun clear() { clears++; stored = null }
 }

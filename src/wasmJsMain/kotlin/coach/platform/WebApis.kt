@@ -2,60 +2,11 @@
 
 package coach.platform
 
-import org.khronos.webgl.ArrayBuffer
-import org.khronos.webgl.Uint8Array
 import org.w3c.dom.events.Event
 import kotlin.js.Promise
 
 // Declaraciones tipadas de las APIs del navegador que usa la app.
 // Único sitio con interop JS: el resto del código no sabe que corre en un navegador.
-
-// ---------- WebCrypto ----------
-external interface CryptoKey : JsAny
-
-external interface SubtleCrypto : JsAny {
-    fun importKey(
-        format: String,
-        keyData: Uint8Array,
-        algorithm: String,
-        extractable: Boolean,
-        keyUsages: JsArray<JsString>,
-    ): Promise<CryptoKey>
-
-    fun deriveKey(
-        algorithm: JsAny,
-        baseKey: CryptoKey,
-        derivedKeyType: JsAny,
-        extractable: Boolean,
-        keyUsages: JsArray<JsString>,
-    ): Promise<CryptoKey>
-
-    fun decrypt(algorithm: JsAny, key: CryptoKey, data: Uint8Array): Promise<ArrayBuffer>
-}
-
-external interface Crypto : JsAny {
-    val subtle: SubtleCrypto?
-}
-
-// Parámetros de algoritmo: objetos JS planos (diccionarios WebIDL).
-internal fun pbkdf2Params(salt: Uint8Array, iterations: Int): JsAny =
-    js("({ name: 'PBKDF2', hash: 'SHA-256', salt: salt, iterations: iterations })")
-
-internal fun aesGcmKeyType(): JsAny = js("({ name: 'AES-GCM', length: 256 })")
-
-internal fun aesGcmParams(iv: Uint8Array, aad: Uint8Array): JsAny =
-    js("({ name: 'AES-GCM', iv: iv, additionalData: aad })")
-
-internal fun usages(usage: String): JsArray<JsString> = js("[usage]")
-
-internal fun globalCrypto(): Crypto? = js("globalThis.crypto ?? null")
-
-// ---------- Codificación ----------
-internal fun base64ToBytes(b64: String): Uint8Array = js("Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))")
-
-internal fun utf8Encode(text: String): Uint8Array = js("new TextEncoder().encode(text)")
-
-internal fun utf8Decode(buffer: ArrayBuffer): String = js("new TextDecoder().decode(buffer)")
 
 // ---------- IndexedDB ----------
 external interface IDBFactory : JsAny {
@@ -72,8 +23,14 @@ external interface IDBOpenDBRequest : IDBRequest {
     var onupgradeneeded: ((Event) -> Unit)?
 }
 
+external interface DOMStringList : JsAny {
+    fun contains(name: String): Boolean
+}
+
 external interface IDBDatabase : JsAny {
+    val objectStoreNames: DOMStringList
     fun createObjectStore(name: String): JsAny
+    fun deleteObjectStore(name: String)
     fun transaction(storeName: String, mode: String): IDBTransaction
     fun close()
 }
@@ -96,15 +53,64 @@ internal fun globalIndexedDb(): IDBFactory? = js("globalThis.indexedDB ?? null")
 /** Única conversión sin comprobar: IndexedDB devuelve `result` sin tipo. */
 internal fun <T : JsAny> JsAny.assumeType(): T = unsafeCast()
 
-// ---------- fetch ----------
-// Ojo: el constructor RequestInit(...) de kotlinx-browser envía `headers: null`, que el navegador rechaza.
-// Por eso se construye solo con los campos necesarios.
-internal fun noStoreInit(): org.w3c.fetch.RequestInit =
-    js("({ cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer' })")
+// ---------- API del backend ----------
 
-/** `fetch` global (ventana en el navegador, undici en Node para los tests). */
-internal fun platformFetch(url: String, init: org.w3c.fetch.RequestInit): Promise<org.w3c.fetch.Response> =
-    js("globalThis.fetch(url, init)")
+/** Respuesta reducida a lo que usa la app: código HTTP (0 = sin conexión) y cuerpo. */
+external interface ApiResponse : JsAny {
+    val status: Int
+    val text: String
+}
+
+/** fetch sin caché, sin cookies y sin referer; el token va en la cabecera Authorization. */
+internal fun apiFetch(url: String, method: String, body: String?, token: String?): Promise<ApiResponse> = js(
+    """globalThis.fetch(url, {
+        method, cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer',
+        headers: Object.assign({}, body != null ? { 'content-type': 'application/json' } : {},
+                               token != null ? { authorization: 'Bearer ' + token } : {}),
+        body: body ?? undefined,
+    }).then((r) => r.text().then((t) => ({ status: r.status, text: t })), () => ({ status: 0, text: '' }))""",
+)
+
+// ---------- Passkeys (WebAuthn) ----------
+// Opciones y respuestas viajan como JSON (base64url para los binarios), como las genera y espera el backend.
+// Un error del navegador vuelve como 'ERR:<nombre del DOMException>'.
+
+internal fun passkeysSupported(): Boolean =
+    js("typeof globalThis.PublicKeyCredential !== 'undefined' && !!globalThis.navigator?.credentials")
+
+internal fun passkeyCreate(optionsJson: String): Promise<JsString> = js(
+    """(() => {
+        const dec = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0)).buffer;
+        const enc = (b) => btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        const o = JSON.parse(optionsJson);
+        o.challenge = dec(o.challenge);
+        o.user.id = dec(o.user.id);
+        (o.excludeCredentials || []).forEach((c) => { c.id = dec(c.id); });
+        return navigator.credentials.create({ publicKey: o }).then((c) => JSON.stringify({
+            id: c.id, rawId: enc(c.rawId), type: c.type, authenticatorAttachment: c.authenticatorAttachment,
+            clientExtensionResults: c.getClientExtensionResults(),
+            response: { clientDataJSON: enc(c.response.clientDataJSON), attestationObject: enc(c.response.attestationObject),
+                        transports: c.response.getTransports ? c.response.getTransports() : [] },
+        }), (e) => 'ERR:' + ((e && e.name) || 'Error'));
+    })()""",
+)
+
+internal fun passkeyGet(optionsJson: String): Promise<JsString> = js(
+    """(() => {
+        const dec = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0)).buffer;
+        const enc = (b) => btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        const o = JSON.parse(optionsJson);
+        o.challenge = dec(o.challenge);
+        (o.allowCredentials || []).forEach((c) => { c.id = dec(c.id); });
+        return navigator.credentials.get({ publicKey: o }).then((c) => JSON.stringify({
+            id: c.id, rawId: enc(c.rawId), type: c.type, authenticatorAttachment: c.authenticatorAttachment,
+            clientExtensionResults: c.getClientExtensionResults(),
+            response: { clientDataJSON: enc(c.response.clientDataJSON), authenticatorData: enc(c.response.authenticatorData),
+                        signature: enc(c.response.signature),
+                        userHandle: c.response.userHandle ? enc(c.response.userHandle) : undefined },
+        }), (e) => 'ERR:' + ((e && e.name) || 'Error'));
+    })()""",
+)
 
 // ---------- Fecha y formato del navegador ----------
 internal fun nowMillis(): Double = js("Date.now()")
